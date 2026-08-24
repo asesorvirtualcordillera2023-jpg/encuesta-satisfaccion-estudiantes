@@ -28,6 +28,15 @@
 .toast{position:fixed;right:20px;bottom:20px;z-index:200;min-width:280px;max-width:420px;background:#153a3d;color:#fff;border-radius:13px;padding:13px 16px;box-shadow:0 16px 45px rgba(0,0,0,.2)}
 @media(max-width:900px){.admin-shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;display:flex;overflow:auto;gap:6px;border-right:0;border-bottom:1px solid var(--borde)}.side-title{display:none}.navbtn{white-space:nowrap;width:auto}.grid-4{grid-template-columns:repeat(2,1fr)}.scale{grid-template-columns:repeat(5,1fr)}}
 @media(max-width:620px){.brand-logo-box{min-width:0;width:126px;height:46px;padding:5px 8px}.brand-logo{max-height:34px}.brand span:nth-child(2){display:none}.hero-brand{position:relative;right:auto;top:auto;width:190px;margin:0 0 14px;padding:7px 10px}.hero.has-brand{padding-right:17px}.sidebar-brand{display:none}.container{width:min(100% - 18px,1180px);margin-top:16px}.card{padding:17px}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.top-actions .hide-mobile{display:none}.wizard-actions{flex-direction:column-reverse}.wizard-actions .btn{width:100%}.admin-main{padding:14px}.admin-title{align-items:flex-start;flex-direction:column}.scale{grid-template-columns:repeat(5,1fr)}}
+
+/* Ampliación administrativa, monitoreo y tarjetas de categoría */
+.category-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 18px;margin:-4px -4px 18px;border-radius:16px;background:linear-gradient(110deg,#f5fffb,#e8f7f4);border:1px solid #cfe8e1}.category-brand{display:flex;align-items:center;gap:16px;min-width:0}.category-brand-logo{width:190px;max-width:30vw;height:58px;padding:6px 10px;border-radius:12px;background:#fff;object-fit:contain;box-shadow:0 7px 18px rgba(0,96,104,.10)}.category-text{min-width:0}.category-text h2{margin:3px 0 0!important}.category-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.dashboard-grid .card{min-width:0}.chartbox.chart-sm{height:280px}.chartbox.chart-wide{height:350px}
+.live-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;background:#edf7f5;color:var(--oscuro);font-weight:800;font-size:12px}.live-dot{width:9px;height:9px;border-radius:50%;background:#98aaa7}.live-badge.connected .live-dot{background:var(--verde);box-shadow:0 0 0 6px rgba(0,206,124,.13);animation:pulseLive 1.6s infinite}.live-badge.error .live-dot{background:var(--tomate)}@keyframes pulseLive{50%{box-shadow:0 0 0 2px rgba(0,206,124,.05)}}
+.avatar{width:48px;height:48px;border-radius:14px;object-fit:cover;background:#eff7f5;border:1px solid #d2e6e1;flex:0 0 auto}.avatar.lg{width:72px;height:72px;border-radius:18px}.avatar-fallback{width:48px;height:48px;border-radius:14px;background:#e9faf4;color:var(--oscuro);display:grid;place-items:center;font-weight:900;flex:0 0 auto}.person-option{align-items:center}.person-option .person-copy{display:flex;flex-direction:column;gap:2px}.person-option .person-type{font-size:11px;color:#718282;text-transform:uppercase;font-weight:800;letter-spacing:.6px}.photo-preview{width:112px;height:112px;border-radius:20px;object-fit:cover;border:1px solid var(--borde);background:#f2f7f6}.photo-preview-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.role-chip{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:850;background:#eaf7f5;color:var(--oscuro)}.role-chip.super{background:#fff0e6;color:#9d4b19}.permission-matrix td,.permission-matrix th{white-space:nowrap}.invite-result{word-break:break-all;background:#f3faf8;border:1px dashed #a9d9cc;border-radius:12px;padding:12px;margin-top:12px}.monitor-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.monitor-toolbar .field{min-width:230px}.last-response{font-size:16px!important}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr}.category-head{align-items:flex-start}.category-brand-logo{width:150px;max-width:38vw}.grid.grid-4.dashboard-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.category-head{flex-direction:column}.category-brand{width:100%;flex-direction:column;align-items:flex-start}.category-brand-logo{width:210px;max-width:80%;height:60px}.category-meta{justify-content:flex-start}.grid.grid-4.dashboard-kpis{grid-template-columns:1fr 1fr}.person-option{padding:10px}.avatar{width:42px;height:42px}}
 </style>
 </head>
 <body>
@@ -40,7 +49,7 @@
   <section class="card hero has-brand" id="publicLoading"><div class="hero-brand"><img src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><div class="eyebrow">Encuesta institucional</div><h1>Cargando encuesta…</h1><p>Estamos validando la campaña activa.</p></section>
   <section class="card hero has-brand hidden" id="closedState"><div class="hero-brand"><img src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><div class="eyebrow">Encuesta institucional</div><h1>Encuesta no disponible</h1><p id="closedText">Actualmente no existe una campaña abierta dentro de su fecha de vigencia.</p></section>
   <section class="hidden" id="surveyWrap">
-    <div class="card hero has-brand">
+    <div class="card hero has-brand" id="surveyIntroHero">
       <div class="hero-brand"><img src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div>
       <div class="label-row"><div><div class="eyebrow" id="campaignPeriod"></div><h1 id="campaignName"></h1></div><span class="tag">URL única Moodle</span></div>
       <div id="introMessage"></div>
@@ -57,7 +66,7 @@
       <div class="notice" style="margin-top:16px">Tus respuestas se almacenan sin identidad estudiantil y se utilizan únicamente para análisis institucional agregado. <button class="btn btn-sm btn-light" type="button" id="inlinePolicy">Ver política de privacidad</button></div>
       <div class="wizard-actions"><span></span><button class="btn btn-primary" id="startSurvey" disabled>Comenzar encuesta →</button></div>
     </section>
-    <section class="card hidden" id="stepQuestions"><div class="label-row"><div><div class="eyebrow" id="sectionCounter"></div><h2 id="sectionTitle" style="margin:4px 0;color:var(--oscuro)"></h2></div><span class="tag" id="sectionTag"></span></div><div id="questionsArea"></div><div class="wizard-actions"><button class="btn btn-light" id="prevSection">← Anterior</button><button class="btn btn-primary" id="nextSection">Continuar →</button></div></section>
+    <section class="card hidden" id="stepQuestions"><div class="category-head"><div class="category-brand"><img class="category-brand-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"><div class="category-text"><div class="eyebrow" id="sectionCounter"></div><h2 id="sectionTitle" style="color:var(--oscuro)"></h2></div></div><div class="category-meta"><span class="tag" id="sectionTag"></span></div></div><div id="questionsArea"></div><div class="wizard-actions"><button class="btn btn-light" id="prevSection">← Anterior</button><button class="btn btn-primary" id="nextSection">Continuar →</button></div></section>
     <section class="card hidden" id="stepReview"><h2 style="margin-top:0;color:var(--oscuro)">Revisar y enviar</h2><div id="reviewMeta" class="notice oknotice"></div><p>Verifica que tus respuestas representen tu opinión. El envío se registrará de forma anónima y no se asociará con tu identidad.</p><div id="reviewMissing"></div><div class="wizard-actions"><button class="btn btn-light" id="backReview">← Volver</button><button class="btn btn-orange" id="submitSurvey">✓ Enviar encuesta</button></div></section>
     <section class="card hidden success" id="stepSuccess"><div class="icon">✓</div><h2 style="color:var(--oscuro)">¡Respuesta registrada!</h2><div id="finalMessage"></div><button class="btn btn-primary" id="newSubject" style="margin-top:18px">Evaluar otra materia</button></section>
   </section>
@@ -65,14 +74,18 @@
 
 <main id="adminApp" class="hidden">
   <section id="loginView" class="login card"><div class="login-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera" onerror="this.outerHTML='<span class=&quot;brand-fallback&quot;>C</span>'"></div><img class="login-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><h2>Administración</h2><p class="muted" style="text-align:center">Acceso protegido con Supabase Auth.</p><div class="field"><label>Correo</label><input id="loginEmail" type="email" autocomplete="username"></div><div class="field" style="margin-top:12px"><label>Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password"></div><button class="btn btn-primary" id="loginBtn" style="width:100%;margin-top:16px">Ingresar</button><div id="loginMsg" style="margin-top:12px"></div></section>
+<section id="inviteView" class="login card hidden"><div class="login-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera"></div><img class="login-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><h2>Activar acceso administrativo</h2><p class="muted" style="text-align:center">Esta invitación asignará el rol definido por el SUPERADMIN. El usuario crea su propia contraseña.</p><div class="field"><label>Correo invitado</label><input id="inviteEmail" type="email" autocomplete="email"></div><div class="field" style="margin-top:12px"><label>Nueva contraseña</label><input id="invitePassword" type="password" minlength="8" autocomplete="new-password"></div><div class="field" style="margin-top:12px"><label>Confirmar contraseña</label><input id="invitePassword2" type="password" minlength="8" autocomplete="new-password"></div><button class="btn btn-primary" id="inviteSignupBtn" style="width:100%;margin-top:16px">Crear mi acceso</button><button class="btn btn-light" id="inviteExistingBtn" style="width:100%;margin-top:8px">Ya tengo cuenta: iniciar sesión</button><div id="inviteMsg" style="margin-top:12px"></div></section>
   <section id="adminShell" class="admin-shell hidden">
-    <aside class="sidebar"><div class="sidebar-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera" onerror="this.outerHTML='<span class=&quot;brand-fallback&quot;>C</span>'"></div><div><strong>Encuesta de Satisfacción</strong><small>Panel administrativo</small></div></div><div class="side-title">Gestión</div><button class="navbtn active" data-panel="dashboard">▦ Dashboard</button><button class="navbtn" data-panel="campaigns">◷ Campañas</button><button class="navbtn" data-panel="academic">▤ Base académica</button><button class="navbtn" data-panel="questions">? Preguntas</button><div class="side-title">Resultados</div><button class="navbtn" data-panel="reports">▥ Reportes</button><button class="navbtn" data-panel="security">🔐 Seguridad</button><button class="navbtn" data-panel="install">⌘ Instalación</button><button class="navbtn" id="logoutBtn">↪ Cerrar sesión</button></aside>
+    <aside class="sidebar"><div class="sidebar-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera" onerror="this.outerHTML='<span class=&quot;brand-fallback&quot;>C</span>'"></div><div><strong>Encuesta de Satisfacción</strong><small>Panel administrativo</small></div></div><div class="side-title">Análisis</div><button class="navbtn active" data-panel="dashboard">▦ Dashboard</button><button class="navbtn" data-panel="monitor">◉ Monitoreo en vivo</button><button class="navbtn" data-panel="reports">▥ Reportes</button><div class="side-title">Gestión</div><button class="navbtn" data-panel="campaigns">◷ Campañas</button><button class="navbtn" data-panel="academic">▤ Base académica</button><button class="navbtn" data-panel="questions">? Preguntas</button><button class="navbtn" data-panel="people">👥 Tutores y asesores</button><button class="navbtn" data-panel="users">♙ Usuarios y roles</button><div class="side-title">Sistema</div><button class="navbtn" data-panel="security">🔐 Seguridad</button><button class="navbtn" data-panel="install">⌘ Instalación</button><button class="navbtn" id="logoutBtn">↪ Cerrar sesión</button></aside>
     <div class="admin-main">
       <div class="admin-title"><div><div class="eyebrow">Panel administrativo</div><h2 id="panelTitle">Dashboard</h2></div><div><span class="tag" id="adminUserTag">Administrador</span></div></div>
-      <section class="admin-panel" id="panel-dashboard"><div class="grid grid-4"><div class="kpi"><div class="n" id="kpiResponses">0</div><div class="l">Respuestas</div></div><div class="kpi"><div class="n" id="kpiTeachers">0</div><div class="l">Docentes evaluados</div></div><div class="kpi"><div class="n" id="kpiSatisfaction">—</div><div class="l">Satisfacción global</div></div><div class="kpi"><div class="n" id="kpiTeacher10">—</div><div class="l">Calificación docente / 10</div></div></div><div class="grid grid-2" style="margin-top:18px"><div class="card"><h3 style="margin-top:0">Satisfacción por componente</h3><div class="chartbox"><canvas id="sectionChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Estado de campaña</h3><div id="campaignStatusBox" class="notice">Sin datos.</div><div style="margin-top:14px" class="muted">El dashboard solo muestra información a usuarios autenticados autorizados por RLS.</div></div></div></section>
+      <section class="admin-panel" id="panel-dashboard"><div class="grid grid-4 dashboard-kpis"><div class="kpi"><div class="n" id="kpiResponses">0</div><div class="l">Respuestas totales</div></div><div class="kpi"><div class="n" id="kpiToday">0</div><div class="l">Respuestas hoy</div></div><div class="kpi"><div class="n" id="kpiTeachers">0</div><div class="l">Docentes evaluados</div></div><div class="kpi"><div class="n" id="kpiSubjects">0</div><div class="l">Materias evaluadas</div></div><div class="kpi"><div class="n" id="kpiSatisfaction">—</div><div class="l">Satisfacción global</div></div><div class="kpi"><div class="n" id="kpiTeacher10">—</div><div class="l">Calificación docente / 10</div></div><div class="kpi"><div class="n" id="kpiCareers">0</div><div class="l">Carreras con respuestas</div></div><div class="kpi"><div class="n last-response" id="kpiLast">—</div><div class="l">Última respuesta</div></div></div><div class="dashboard-grid"><div class="card"><h3 style="margin-top:0">Satisfacción por componente</h3><div class="chartbox"><canvas id="sectionChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Tendencia de respuestas</h3><div class="chartbox"><canvas id="trendChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Respuestas por carrera</h3><div class="chartbox chart-sm"><canvas id="careerChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Respuestas por nivel</h3><div class="chartbox chart-sm"><canvas id="levelChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Ranking de satisfacción docente</h3><div class="chartbox chart-wide"><canvas id="teacherRankChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Distribución de escala 1–5</h3><div class="chartbox chart-sm"><canvas id="scaleChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Estado de campaña</h3><div id="campaignStatusBox" class="notice">Sin datos.</div><div class="muted" style="margin-top:12px">Los indicadores se calculan en Supabase; el navegador solo representa datos agregados.</div></div><div class="card"><h3 style="margin-top:0">Lectura para toma de decisiones</h3><div id="decisionSummary" class="notice oknotice">Los hallazgos aparecerán cuando existan respuestas.</div></div></div></section>
       <section class="admin-panel hidden" id="panel-campaigns"><div class="card"><div class="label-row"><div><h3 style="margin:0">Campañas de encuesta</h3><p class="muted">Define fechas y controla manualmente la apertura.</p></div><button class="btn btn-primary" id="newCampaignBtn">+ Nueva campaña</button></div><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Campaña</th><th>Periodo</th><th>Inicio</th><th>Cierre</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="campaignRows"></tbody></table></div></div></section>
       <section class="admin-panel hidden" id="panel-academic"><div class="grid grid-2"><div class="card"><h3 style="margin-top:0">Importar base académica</h3><p class="muted">Acepta XLSX o CSV con las columnas institucionales: MATERIA, CARRERA, MODALIDAD, NIVEL, PAR, JORNADA, CED PROF, PROFESOR, PERIODO, ESTADO.</p><input type="file" id="academicFile" accept=".xlsx,.xls,.csv"><div id="academicPreview" style="margin-top:12px"></div><button class="btn btn-primary" id="importAcademicBtn" style="margin-top:12px" disabled>Importar a Supabase</button></div><div class="card"><h3 style="margin-top:0">Catálogo cargado</h3><div class="grid grid-3"><div class="kpi"><div class="n" id="acTeachers">0</div><div class="l">Docentes</div></div><div class="kpi"><div class="n" id="acSubjects">0</div><div class="l">Materias</div></div><div class="kpi"><div class="n" id="acOffers">0</div><div class="l">Ofertas</div></div></div><div class="notice" style="margin-top:14px">La cédula del docente permanece en Supabase y no forma parte del catálogo público devuelto a estudiantes.</div></div></div></section>
       <section class="admin-panel hidden" id="panel-questions"><div class="card"><div class="label-row"><div><h3 style="margin:0">Banco de preguntas</h3><p class="muted">Importa XML Moodle Feedback, crea, edita o inactiva preguntas.</p></div><div class="toolbar"><label class="btn btn-light btn-sm" for="xmlFile">Importar XML</label><input class="hidden" type="file" id="xmlFile" accept=".xml"><button class="btn btn-primary btn-sm" id="newQuestionBtn">+ Pregunta</button></div></div><div id="xmlPreview" style="margin-top:10px"></div><button class="btn btn-primary btn-sm hidden" id="saveXmlImport" style="margin-top:10px">Crear nueva versión con este XML</button><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Orden</th><th>Sección</th><th>Pregunta</th><th>Tipo</th><th>Obligatoria</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="questionRows"></tbody></table></div></div></section>
+      <section class="admin-panel hidden" id="panel-monitor"><div class="card"><div class="label-row"><div><h3 style="margin:0">Monitoreo de respuestas en tiempo real</h3><p class="muted">Visualiza el avance de la campaña sin identificar estudiantes.</p></div><span class="live-badge" id="liveBadge"><span class="live-dot"></span><span id="liveText">Conectando…</span></span></div><div class="monitor-toolbar" style="margin-top:14px"><div class="field"><label>Campaña</label><select id="monitorCampaign"><option value="">Todas</option></select></div><button class="btn btn-dark" id="refreshMonitor">Actualizar</button></div><div class="grid grid-4 dashboard-kpis" style="margin-top:16px"><div class="kpi"><div class="n" id="monTotal">0</div><div class="l">Respuestas</div></div><div class="kpi"><div class="n" id="monToday">0</div><div class="l">Hoy</div></div><div class="kpi"><div class="n" id="monHour">0</div><div class="l">Última hora</div></div><div class="kpi"><div class="n" id="mon10">0</div><div class="l">Últimos 10 min</div></div></div><div class="dashboard-grid"><div class="card"><h3 style="margin-top:0">Actividad por carrera</h3><div class="chartbox chart-sm"><canvas id="monitorCareerChart"></canvas></div></div><div class="card"><h3 style="margin-top:0">Actividad por nivel</h3><div class="chartbox chart-sm"><canvas id="monitorLevelChart"></canvas></div></div></div><div class="label-row" style="margin-top:18px"><div><h3 style="margin:0">Últimas respuestas</h3><div class="muted" id="monLast">Última respuesta: —</div></div><div class="toolbar"><button class="btn btn-light btn-sm" id="monExportCsv">CSV</button><button class="btn btn-light btn-sm" id="monExportExcel">Excel</button><button class="btn btn-light btn-sm" id="monExportHtml">HTML / Imprimir</button></div></div><div class="table-wrap" style="margin-top:12px"><table class="table"><thead><tr><th>Fecha</th><th>Carrera</th><th>Nivel</th><th>Materia</th><th>Docente</th><th>Satisfacción</th><th>Docente /10</th></tr></thead><tbody id="monitorRows"></tbody></table></div></div></section>
+            <section class="admin-panel hidden" id="panel-people"><div class="card"><div class="label-row"><div><h3 style="margin:0">Tutores y asesores virtuales</h3><p class="muted">Administra nombres, estado y fotografía institucional. Las fotos se muestran únicamente en las preguntas correspondientes.</p></div><button class="btn btn-primary" id="newPersonBtn">+ Agregar</button></div><div class="notice" style="margin-top:12px">Puedes pegar una URL de imagen o subir JPG/PNG/WEBP al bucket <strong>personal-encuesta</strong> de Supabase Storage. Al agregar o cambiar un nombre, la opción de la pregunta correspondiente se sincroniza automáticamente.</div><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Foto</th><th>Tipo</th><th>Nombre</th><th>Orden</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="peopleRows"></tbody></table></div></div></section>
+            <section class="admin-panel hidden" id="panel-users"><div class="card"><div class="label-row"><div><h3 style="margin:0">Usuarios y roles</h3><p class="muted">Solo SUPERADMIN puede invitar, cambiar roles o inactivar accesos.</p></div><button class="btn btn-primary" id="newUserBtn">+ Invitar usuario</button></div><div class="table-wrap permission-matrix" style="margin-top:14px"><table class="table"><thead><tr><th>Rol</th><th>Dashboard</th><th>Monitoreo</th><th>Reportes</th><th>Gestión académica</th><th>Usuarios</th></tr></thead><tbody><tr><td><span class="role-chip super">SUPERADMIN</span></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr><tr><td><span class="role-chip">ADMIN_ACADEMICO</span></td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>—</td></tr><tr><td><span class="role-chip">ANALISTA</span></td><td>✓</td><td>✓</td><td>✓ + exportar</td><td>—</td><td>—</td></tr><tr><td><span class="role-chip">CONSULTA</span></td><td>✓</td><td>—</td><td>✓ lectura</td><td>—</td><td>—</td></tr></tbody></table></div><h3>Usuarios activos e inactivos</h3><div class="table-wrap"><table class="table"><thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Alta</th><th>Acciones</th></tr></thead><tbody id="userRows"></tbody></table></div><h3 style="margin-top:20px">Invitaciones pendientes</h3><div class="table-wrap"><table class="table"><thead><tr><th>Correo</th><th>Nombre</th><th>Rol</th><th>Vence</th><th>Acciones</th></tr></thead><tbody id="inviteRows"></tbody></table></div></div></section>
       <section class="admin-panel hidden" id="panel-reports"><div class="card"><h3 style="margin-top:0">Reportes y exportación</h3><div class="toolbar"><div class="field"><label>Campaña</label><select id="fCampaign"></select></div><div class="field"><label>Carrera</label><select id="fCareer"><option value="">Todas</option></select></div><div class="field"><label>Docente</label><select id="fTeacher"><option value="">Todos</option></select></div><div class="field"><label>Nivel</label><select id="fLevel"><option value="">Todos</option></select></div><div class="field"><label>Desde</label><input type="date" id="fFrom"></div><div class="field"><label>Hasta</label><input type="date" id="fTo"></div><button class="btn btn-dark" id="runReport">Aplicar</button></div><div class="toolbar" style="margin-top:14px"><button class="btn btn-light btn-sm" id="exportCsv">CSV</button><button class="btn btn-light btn-sm" id="exportExcel">Excel</button><button class="btn btn-light btn-sm" id="exportHtml">HTML / Imprimir</button></div><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Carrera</th><th>Nivel</th><th>Materia</th><th>Docente</th><th>Respuestas</th><th>Satisfacción</th><th>Docente /10</th></tr></thead><tbody id="reportRows"></tbody></table></div></div></section>
       <section class="admin-panel hidden" id="panel-security"><div class="card"><h3 style="margin-top:0">Política de seguridad y privacidad</h3><div class="notice oknotice">Diseño aplicado: encuesta anónima, sin datos identificativos del estudiante, RLS, Supabase Auth para administración, auditoría y privilegios mínimos.</div><div id="securityPolicyText" style="white-space:pre-wrap;margin-top:16px"></div></div></section>
       <section class="admin-panel hidden" id="panel-install"><div class="grid grid-2"><div class="card"><h3 style="margin-top:0">Configuración del HTML</h3><p class="muted">Proyecto Supabase configurado. La aplicación ya contiene la URL y la clave pública publishable para el frontend. Nunca uses service_role en este archivo.</p><div class="codebox">const CONFIG = {\n  supabaseUrl: 'https://pyvudqszqjpbhessgjzz.supabase.co',\n  supabaseAnonKey: 'sb_publishable_eHhXCKgoyB_Swjxix2jCpA_WDU18aQn'\n};</div></div><div class="card"><h3 style="margin-top:0">SQL de instalación incluido</h3><p class="muted">El mismo SQL está dentro de este HTML y en el archivo supabase.sql del paquete.</p><button class="btn btn-primary" id="downloadSql">Descargar supabase.sql</button><button class="btn btn-light" id="copySql" style="margin-left:6px">Copiar SQL</button></div></div></section>
@@ -83,9 +96,13 @@
 <div class="modal hidden" id="policyModal"><div class="modal-card"><div class="modal-head"><strong>Política de seguridad y privacidad</strong><button class="close" data-close="policyModal">×</button></div><div class="modal-body"><div id="policyBody" style="white-space:pre-wrap"></div></div></div></div>
 <div class="modal hidden" id="campaignModal"><div class="modal-card"><div class="modal-head"><strong id="campaignModalTitle">Campaña</strong><button class="close" data-close="campaignModal">×</button></div><div class="modal-body"><input type="hidden" id="campId"><div class="grid grid-2"><div class="field"><label>Nombre</label><input id="campName"></div><div class="field"><label>Periodo</label><select id="campPeriod"></select></div><div class="field"><label>Cuestionario</label><select id="campQuestionnaire"></select></div><div class="field"><label>Política</label><select id="campPolicy"></select></div><div class="field"><label>Inicio</label><input type="datetime-local" id="campStart"></div><div class="field"><label>Cierre</label><input type="datetime-local" id="campEnd"></div></div><div class="field" style="margin-top:12px"><label>Mensaje inicial</label><textarea id="campIntro"></textarea></div><div class="field" style="margin-top:12px"><label>Mensaje final</label><textarea id="campFinal"></textarea></div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="saveCampaign">Guardar</button></div></div></div></div>
 <div class="modal hidden" id="questionModal"><div class="modal-card"><div class="modal-head"><strong>Pregunta</strong><button class="close" data-close="questionModal">×</button></div><div class="modal-body"><input type="hidden" id="qId"><div class="grid grid-2"><div class="field"><label>Sección</label><select id="qSection"></select></div><div class="field"><label>Tipo</label><select id="qType"><option value="multichoice">Selección</option><option value="numeric">Numérica</option><option value="text">Texto</option></select></div><div class="field"><label>Código</label><input id="qCode"></div><div class="field"><label>Orden</label><input id="qOrder" type="number" min="1"></div></div><div class="field" style="margin-top:12px"><label>Texto</label><textarea id="qText"></textarea></div><div class="grid grid-3" style="margin-top:12px"><div class="field"><label>Mínimo</label><input id="qMin" type="number" step="any"></div><div class="field"><label>Máximo</label><input id="qMax" type="number" step="any"></div><div class="field"><label>Obligatoria</label><select id="qReq"><option value="false">No</option><option value="true">Sí</option></select></div></div><div class="field" style="margin-top:12px"><label>Opciones (solo nuevas preguntas de selección)</label><textarea id="qOptions" placeholder="1|Totalmente en desacuerdo\n2|En desacuerdo\nNA|No aplica"></textarea><div class="muted">Formato: valor|etiqueta. Use NA|etiqueta para excluir del promedio.</div></div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="saveQuestion">Guardar</button></div></div></div></div>
+<div class="modal hidden" id="personModal"><div class="modal-card"><div class="modal-head"><strong id="personModalTitle">Tutor / Asesor</strong><button class="close" data-close="personModal">×</button></div><div class="modal-body"><input type="hidden" id="personId"><div class="grid grid-2"><div class="field"><label>Tipo</label><select id="personType"><option value="TUTOR">Tutor/a virtual</option><option value="ASESOR">Asesor virtual</option></select></div><div class="field"><label>Orden</label><input type="number" id="personOrder" min="1" value="1"></div><div class="field"><label>Nombre</label><input id="personName"></div><div class="field"><label>Estado</label><select id="personActive"><option value="true">Activo</option><option value="false">Inactivo</option></select></div></div><div class="field" style="margin-top:12px"><label>URL de fotografía</label><input id="personPhotoUrl" placeholder="https://..."></div><div class="field" style="margin-top:12px"><label>O subir fotografía</label><input id="personPhotoFile" type="file" accept="image/jpeg,image/png,image/webp"></div><div class="photo-preview-wrap" style="margin-top:14px"><img id="personPreview" class="photo-preview hidden" alt="Vista previa"><div class="muted">La fotografía se mostrará junto al nombre en la pregunta de tutor o asesor.</div></div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="savePerson">Guardar</button></div></div></div></div>
+<div class="modal hidden" id="inviteUserModal"><div class="modal-card"><div class="modal-head"><strong>Invitar usuario administrativo</strong><button class="close" data-close="inviteUserModal">×</button></div><div class="modal-body"><div class="grid grid-2"><div class="field"><label>Nombre</label><input id="newUserName"></div><div class="field"><label>Correo</label><input id="newUserEmail" type="email"></div><div class="field"><label>Rol</label><select id="newUserRole"><option value="ADMIN_ACADEMICO">ADMIN_ACADEMICO</option><option value="ANALISTA">ANALISTA</option><option value="CONSULTA">CONSULTA</option><option value="SUPERADMIN">SUPERADMIN</option></select></div></div><div class="notice" style="margin-top:14px">Se generará un enlace de invitación válido por 72 horas. El nuevo usuario definirá su propia contraseña.</div><button class="btn btn-primary" id="createInvite" style="margin-top:14px">Generar invitación</button><div id="inviteLinkResult"></div></div></div></div>
+<div class="modal hidden" id="editUserModal"><div class="modal-card"><div class="modal-head"><strong>Editar usuario</strong><button class="close" data-close="editUserModal">×</button></div><div class="modal-body"><input type="hidden" id="editUserId"><div class="grid grid-2"><div class="field"><label>Nombre</label><input id="editUserName"></div><div class="field"><label>Rol</label><select id="editUserRole"><option value="SUPERADMIN">SUPERADMIN</option><option value="ADMIN_ACADEMICO">ADMIN_ACADEMICO</option><option value="ANALISTA">ANALISTA</option><option value="CONSULTA">CONSULTA</option></select></div><div class="field"><label>Estado</label><select id="editUserActive"><option value="true">Activo</option><option value="false">Inactivo</option></select></div></div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="saveUser">Guardar cambios</button></div></div></div></div>
 <div id="toast" class="toast hidden"></div>
 
-<script type="text/plain" id="sqlInstaller">-- ENCUESTA DE SATISFACCIÓN - ITS CORDILLERA
+<script type="text/plain" id="sqlInstaller">
+-- ENCUESTA DE SATISFACCIÓN - ITS CORDILLERA
 -- Esquema Supabase/PostgreSQL con RLS.
 -- Ejecutar completo en SQL Editor de Supabase.
 
@@ -139,6 +156,37 @@ create table if not exists public.importaciones (
  id bigint generated by default as identity primary key, user_id uuid, tipo text not null, archivo text, registros integer not null default 0, detalle jsonb, created_at timestamptz not null default now()
 );
 
+
+-- Perfiles administrativos: correo sincronizado desde Supabase Auth para gestión de usuarios.
+alter table public.perfiles_admin add column if not exists email text;
+create unique index if not exists uq_perfiles_admin_email on public.perfiles_admin(lower(email)) where email is not null;
+
+create table if not exists public.invitaciones_admin (
+ id uuid primary key default gen_random_uuid(),
+ email text not null,
+ nombre text not null,
+ rol text not null check(rol in ('SUPERADMIN','ADMIN_ACADEMICO','ANALISTA','CONSULTA')),
+ token_hash text not null unique,
+ expira_at timestamptz not null default (now() + interval '72 hours'),
+ usado_at timestamptz,
+ creado_por uuid references auth.users(id) on delete set null,
+ created_at timestamptz not null default now()
+);
+create index if not exists idx_invitaciones_admin_email on public.invitaciones_admin(lower(email));
+
+create table if not exists public.personal_encuesta (
+ id bigint generated by default as identity primary key,
+ tipo text not null check(tipo in ('TUTOR','ASESOR')),
+ nombre text not null,
+ foto_url text,
+ activo boolean not null default true,
+ orden integer not null default 1,
+ created_at timestamptz not null default now(),
+ updated_at timestamptz not null default now(),
+ unique(tipo,nombre)
+);
+create index if not exists idx_personal_encuesta_tipo on public.personal_encuesta(tipo,activo,orden);
+
 create index if not exists idx_ofertas_periodo on public.ofertas_academicas(periodo_id);
 create index if not exists idx_ofertas_carrera on public.ofertas_academicas(carrera_id);
 create index if not exists idx_ofertas_docente on public.ofertas_academicas(docente_id);
@@ -162,11 +210,41 @@ language sql stable security definer set search_path = '' as $$
   select exists(select 1 from public.perfiles_admin p where p.user_id=(select auth.uid()) and p.activo and p.rol='SUPERADMIN');
 $$;
 
+create or replace function private.puede_gestion_academica() returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists(
+    select 1 from public.perfiles_admin p
+    where p.user_id=(select auth.uid()) and p.activo and p.rol in ('SUPERADMIN','ADMIN_ACADEMICO')
+  );
+$$;
+
+create or replace function private.puede_ver_resultados() returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists(
+    select 1 from public.perfiles_admin p
+    where p.user_id=(select auth.uid()) and p.activo and p.rol in ('SUPERADMIN','ADMIN_ACADEMICO','ANALISTA','CONSULTA')
+  );
+$$;
+
+create or replace function private.puede_monitorear() returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists(
+    select 1 from public.perfiles_admin p
+    where p.user_id=(select auth.uid()) and p.activo and p.rol in ('SUPERADMIN','ADMIN_ACADEMICO','ANALISTA')
+  );
+$$;
+
 revoke all on function private.es_admin() from public;
 revoke all on function private.es_superadmin() from public;
+revoke all on function private.puede_gestion_academica() from public;
+revoke all on function private.puede_ver_resultados() from public;
+revoke all on function private.puede_monitorear() from public;
 grant usage on schema private to authenticated;
 grant execute on function private.es_admin() to authenticated;
 grant execute on function private.es_superadmin() to authenticated;
+grant execute on function private.puede_gestion_academica() to authenticated;
+grant execute on function private.puede_ver_resultados() to authenticated;
+grant execute on function private.puede_monitorear() to authenticated;
 
 alter table public.periodos enable row level security;
 
@@ -301,6 +379,60 @@ drop policy if exists perfil_propio_select on public.perfiles_admin; create poli
 drop policy if exists perfil_superadmin_all on public.perfiles_admin; create policy perfil_superadmin_all on public.perfiles_admin for all to authenticated using ((select private.es_superadmin())) with check ((select private.es_superadmin()));
 
 
+-- RLS de invitaciones y personal visible en la encuesta.
+alter table public.invitaciones_admin enable row level security;
+revoke all on table public.invitaciones_admin from anon, authenticated;
+grant select, insert, update, delete on table public.invitaciones_admin to authenticated;
+drop policy if exists invitaciones_superadmin_all on public.invitaciones_admin;
+create policy invitaciones_superadmin_all on public.invitaciones_admin for all to authenticated
+using ((select private.es_superadmin())) with check ((select private.es_superadmin()));
+
+alter table public.personal_encuesta enable row level security;
+revoke all on table public.personal_encuesta from anon, authenticated;
+grant select, insert, update, delete on table public.personal_encuesta to authenticated;
+drop policy if exists personal_admin_select on public.personal_encuesta;
+create policy personal_admin_select on public.personal_encuesta for select to authenticated using ((select private.es_admin()));
+drop policy if exists personal_gestion_insert on public.personal_encuesta;
+create policy personal_gestion_insert on public.personal_encuesta for insert to authenticated with check ((select private.puede_gestion_academica()));
+drop policy if exists personal_gestion_update on public.personal_encuesta;
+create policy personal_gestion_update on public.personal_encuesta for update to authenticated using ((select private.puede_gestion_academica())) with check ((select private.puede_gestion_academica()));
+drop policy if exists personal_gestion_delete on public.personal_encuesta;
+create policy personal_gestion_delete on public.personal_encuesta for delete to authenticated using ((select private.puede_gestion_academica()));
+
+-- Reemplaza políticas amplias por lectura para cualquier rol activo y escritura solo para gestión académica.
+do $$
+declare t text;
+begin
+  foreach t in array array['periodos','cuestionarios','secciones','preguntas','opciones_pregunta','carreras','materias','docentes','ofertas_academicas','politicas_privacidad','campanas'] loop
+    execute format('drop policy if exists admin_all_%I on public.%I',t,t);
+    execute format('drop policy if exists role_select_%I on public.%I',t,t);
+    execute format('drop policy if exists role_insert_%I on public.%I',t,t);
+    execute format('drop policy if exists role_update_%I on public.%I',t,t);
+    execute format('drop policy if exists role_delete_%I on public.%I',t,t);
+    execute format('create policy role_select_%I on public.%I for select to authenticated using ((select private.es_admin()))',t,t);
+    execute format('create policy role_insert_%I on public.%I for insert to authenticated with check ((select private.puede_gestion_academica()))',t,t);
+    execute format('create policy role_update_%I on public.%I for update to authenticated using ((select private.puede_gestion_academica())) with check ((select private.puede_gestion_academica()))',t,t);
+    execute format('create policy role_delete_%I on public.%I for delete to authenticated using ((select private.puede_gestion_academica()))',t,t);
+  end loop;
+end $$;
+
+-- Respuestas y detalle: lectura administrativa; escritura pública solo por la RPC SECURITY DEFINER.
+drop policy if exists admin_all_respuestas on public.respuestas;
+drop policy if exists resultados_select_respuestas on public.respuestas;
+create policy resultados_select_respuestas on public.respuestas for select to authenticated using ((select private.puede_monitorear()));
+drop policy if exists admin_all_respuesta_detalle on public.respuesta_detalle;
+drop policy if exists resultados_select_detalle on public.respuesta_detalle;
+-- Sin política SELECT directa: el detalle anónimo se procesa únicamente dentro de RPC agregadas SECURITY DEFINER.
+
+-- Auditoría e importaciones solo lectura administrativa; las funciones SECURITY DEFINER escriben.
+drop policy if exists admin_all_auditoria on public.auditoria;
+drop policy if exists auditoria_select_admin on public.auditoria;
+create policy auditoria_select_admin on public.auditoria for select to authenticated using ((select private.es_admin()));
+drop policy if exists admin_all_importaciones on public.importaciones;
+drop policy if exists importaciones_select_admin on public.importaciones;
+create policy importaciones_select_admin on public.importaciones for select to authenticated using ((select private.es_admin()));
+
+
 create or replace function public.obtener_encuesta_publica()
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare c record; result jsonb;
@@ -322,6 +454,8 @@ begin
     'politica',jsonb_build_object('version',c.politica_version,'titulo',c.politica_titulo,'contenido',c.politica_contenido),
     'ofertas',(select coalesce(jsonb_agg(jsonb_build_object('id',o.id,'carrera',ca.nombre,'materia',m.nombre,'nivel',o.nivel) order by ca.nombre,o.nivel,m.nombre),'[]'::jsonb)
       from public.ofertas_academicas o join public.carreras ca on ca.id=o.carrera_id join public.materias m on m.id=o.materia_id where o.periodo_id=c.periodo_id and upper(o.estado)='ACTIVO'),
+    'personal',(select coalesce(jsonb_agg(jsonb_build_object('tipo',pe.tipo,'nombre',pe.nombre,'foto_url',pe.foto_url,'orden',pe.orden) order by pe.tipo,pe.orden,pe.nombre),'[]'::jsonb)
+      from public.personal_encuesta pe where pe.activo),
     'secciones',(select coalesce(jsonb_agg(sec order by (sec->>'orden')::int),'[]'::jsonb) from (
       select jsonb_build_object('id',s.id,'codigo',s.codigo,'titulo',s.titulo,'orden',s.orden,'alcance',s.alcance,
         'preguntas',(select coalesce(jsonb_agg(jsonb_build_object('id',q.id,'codigo',q.codigo,'tipo',q.tipo,'texto',q.texto,'requerido',q.requerido,'orden',q.orden,'minimo',q.minimo,'maximo',q.maximo,
@@ -381,7 +515,7 @@ create or replace function public.admin_importar_ofertas(p_rows jsonb)
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare r jsonb; v_periodo bigint; v_carrera bigint; v_materia bigint; v_docente bigint; n int:=0; ced text; nom text; per text;
 begin
-  if not private.es_admin() then raise exception 'No autorizado'; end if;
+  if not private.puede_gestion_academica() then raise exception 'No autorizado para gestionar base académica'; end if;
   for r in select * from jsonb_array_elements(coalesce(p_rows,'[]'::jsonb)) loop
     ced:=regexp_replace(coalesce(r->>'CED PROF',''),'\D','','g'); nom:=trim(coalesce(r->>'PROFESOR','')); per:=trim(coalesce(r->>'PERIODO',''));
     if ced='' or nom='' or per='' or trim(coalesce(r->>'MATERIA',''))='' or trim(coalesce(r->>'CARRERA',''))='' then continue; end if;
@@ -405,7 +539,7 @@ create or replace function public.admin_importar_cuestionario(p_nombre text,p_it
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare v_qid bigint; v_version int; v_code text; r jsonb; o jsonb; v_sid bigint; v_pid bigint; nsec int:=0; nq int:=0;
 begin
-  if not private.es_admin() then raise exception 'No autorizado'; end if;
+  if not private.puede_gestion_academica() then raise exception 'No autorizado para gestionar cuestionarios'; end if;
   if jsonb_array_length(coalesce(p_items,'[]'::jsonb))=0 then raise exception 'No existen elementos para importar'; end if;
   select coalesce(max(version),0)+1 into v_version from public.cuestionarios;
   v_code := 'SAT_IMPORT_' || to_char(clock_timestamp(),'YYYYMMDDHH24MISSMS');
@@ -438,25 +572,57 @@ create or replace function public.admin_dashboard(p_campana uuid default null,p_
 returns jsonb language plpgsql security definer set search_path = '' as $$
 declare result jsonb;
 begin
-  if not private.es_admin() then raise exception 'No autorizado'; end if;
-  with base as (
-    select r.id respuesta_id,r.created_at,o.docente_id,o.carrera_id,o.nivel,rd.valor_numerico,q.maximo,s.titulo seccion,q.codigo
+  if not private.puede_ver_resultados() then raise exception 'No autorizado'; end if;
+  with heads as (
+    select r.id respuesta_id,r.created_at,r.campana_id,o.id oferta_id,o.docente_id,o.carrera_id,o.nivel,o.materia_id
     from public.respuestas r join public.ofertas_academicas o on o.id=r.oferta_id
-    join public.respuesta_detalle rd on rd.respuesta_id=r.id join public.preguntas q on q.id=rd.pregunta_id join public.secciones s on s.id=q.seccion_id
     where (p_campana is null or r.campana_id=p_campana) and (p_docente is null or o.docente_id=p_docente) and (p_carrera is null or o.carrera_id=p_carrera) and (p_nivel is null or o.nivel=p_nivel)
       and (p_desde is null or r.created_at::date>=p_desde) and (p_hasta is null or r.created_at::date<=p_hasta)
-  ), heads as (
-    select distinct r.id,o.docente_id,o.carrera_id,o.nivel,o.id oferta_id from public.respuestas r join public.ofertas_academicas o on o.id=r.oferta_id
-    where (p_campana is null or r.campana_id=p_campana) and (p_docente is null or o.docente_id=p_docente) and (p_carrera is null or o.carrera_id=p_carrera) and (p_nivel is null or o.nivel=p_nivel)
-      and (p_desde is null or r.created_at::date>=p_desde) and (p_hasta is null or r.created_at::date<=p_hasta)
+  ), base as (
+    select h.*,rd.valor_numerico,q.maximo,s.titulo seccion,q.codigo
+    from heads h join public.respuesta_detalle rd on rd.respuesta_id=h.respuesta_id
+    join public.preguntas q on q.id=rd.pregunta_id join public.secciones s on s.id=q.seccion_id
   )
   select jsonb_build_object(
     'respuestas',(select count(*) from heads),
+    'respuestas_hoy',(select count(*) from heads where created_at::date=current_date),
     'docentes',(select count(distinct docente_id) from heads),
     'ofertas',(select count(distinct oferta_id) from heads),
+    'materias',(select count(distinct materia_id) from heads),
+    'carreras',(select count(distinct carrera_id) from heads),
+    'ultima_respuesta',(select max(created_at) from heads),
     'satisfaccion_pct',(select round(avg(case when valor_numerico is not null and maximo is not null and maximo>0 then valor_numerico/maximo*100 end),1) from base),
     'docente_10',(select round(avg(valor_numerico),2) from base where codigo='20933'),
-    'secciones',(select coalesce(jsonb_agg(jsonb_build_object('seccion',seccion,'porcentaje',pct) order by seccion),'[]'::jsonb) from (select seccion,round(avg(case when valor_numerico is not null and maximo is not null and maximo>0 then valor_numerico/maximo*100 end),1) pct from base group by seccion) z)
+    'secciones',(select coalesce(jsonb_agg(jsonb_build_object('seccion',seccion,'porcentaje',pct) order by ord),'[]'::jsonb) from (
+      select seccion,min((select s2.orden from public.secciones s2 where s2.titulo=base.seccion limit 1)) ord,
+             round(avg(case when valor_numerico is not null and maximo is not null and maximo>0 then valor_numerico/maximo*100 end),1) pct
+      from base group by seccion
+    ) z),
+    'por_carrera',(select coalesce(jsonb_agg(jsonb_build_object('carrera',carrera,'respuestas',respuestas,'satisfaccion_pct',sat) order by respuestas desc,carrera),'[]'::jsonb) from (
+      select ca.nombre carrera,count(distinct h.respuesta_id) respuestas,
+             round(avg(case when b.valor_numerico is not null and b.maximo is not null and b.maximo>0 then b.valor_numerico/b.maximo*100 end),1) sat
+      from heads h join public.carreras ca on ca.id=h.carrera_id left join base b on b.respuesta_id=h.respuesta_id
+      group by ca.nombre
+    ) z),
+    'por_nivel',(select coalesce(jsonb_agg(jsonb_build_object('nivel',nivel,'respuestas',respuestas,'satisfaccion_pct',sat) order by nivel),'[]'::jsonb) from (
+      select h.nivel,count(distinct h.respuesta_id) respuestas,
+             round(avg(case when b.valor_numerico is not null and b.maximo is not null and b.maximo>0 then b.valor_numerico/b.maximo*100 end),1) sat
+      from heads h left join base b on b.respuesta_id=h.respuesta_id group by h.nivel
+    ) z),
+    'tendencia',(select coalesce(jsonb_agg(jsonb_build_object('fecha',fecha,'respuestas',respuestas) order by fecha),'[]'::jsonb) from (
+      select created_at::date fecha,count(*) respuestas from heads group by created_at::date order by created_at::date
+    ) z),
+    'docentes_ranking',(select coalesce(jsonb_agg(jsonb_build_object('docente',docente,'respuestas',respuestas,'satisfaccion_pct',sat,'docente_10',d10) order by sat desc nulls last,respuestas desc),'[]'::jsonb) from (
+      select d.nombre docente,count(distinct h.respuesta_id) respuestas,
+             round(avg(case when b.valor_numerico is not null and b.maximo is not null and b.maximo>0 then b.valor_numerico/b.maximo*100 end),1) sat,
+             round(avg(case when b.codigo='20933' then b.valor_numerico end),2) d10
+      from heads h join public.docentes d on d.id=h.docente_id left join base b on b.respuesta_id=h.respuesta_id
+      group by d.nombre order by sat desc nulls last,respuestas desc limit 10
+    ) z),
+    'distribucion_escala',(select coalesce(jsonb_agg(jsonb_build_object('valor',valor,'cantidad',cantidad) order by valor),'[]'::jsonb) from (
+      select valor_numerico::int valor,count(*) cantidad from base
+      where maximo=5 and valor_numerico between 1 and 5 group by valor_numerico::int
+    ) z)
   ) into result;
   return result;
 end; $$;
@@ -465,7 +631,7 @@ create or replace function public.admin_reporte_resumen(p_campana uuid default n
 returns table(carrera text,nivel text,paralelo text,jornada text,materia text,docente text,respuestas bigint,satisfaccion_pct numeric,calificacion_docente_10 numeric)
 language plpgsql security definer set search_path = '' as $$
 begin
-  if not private.es_admin() then raise exception 'No autorizado'; end if;
+  if not private.puede_ver_resultados() then raise exception 'No autorizado'; end if;
   return query
   with heads as (
     select r.id,r.campana_id,r.oferta_id,r.created_at,o.carrera_id,o.docente_id,o.nivel,o.paralelo,o.jornada,o.materia_id
@@ -485,6 +651,161 @@ end; $$;
 
 
 
+
+
+create or replace function public.admin_mi_perfil()
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare p public.perfiles_admin%rowtype; v_email text;
+begin
+  if (select auth.uid()) is null then raise exception 'No autenticado'; end if;
+  v_email:=lower(coalesce(auth.jwt()->>'email',''));
+  select * into p from public.perfiles_admin where user_id=(select auth.uid()) and activo;
+  if p.user_id is null then return null; end if;
+  if v_email<>'' and (p.email is null or lower(p.email)<>v_email) then
+    update public.perfiles_admin set email=v_email where user_id=p.user_id returning * into p;
+  end if;
+  return jsonb_build_object('user_id',p.user_id,'nombre',p.nombre,'email',p.email,'rol',p.rol,'activo',p.activo,'created_at',p.created_at);
+end; $$;
+
+create or replace function public.admin_crear_invitacion(p_email text,p_nombre text,p_rol text)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare v_token text; v_hash text; v_id uuid; v_exp timestamptz;
+begin
+  if not private.es_superadmin() then raise exception 'Solo SUPERADMIN puede crear usuarios'; end if;
+  p_email:=lower(trim(coalesce(p_email,''))); p_nombre:=trim(coalesce(p_nombre,'')); p_rol:=upper(trim(coalesce(p_rol,'')));
+  if p_email='' or position('@' in p_email)<2 then raise exception 'Correo inválido'; end if;
+  if p_nombre='' then raise exception 'Nombre obligatorio'; end if;
+  if p_rol not in ('SUPERADMIN','ADMIN_ACADEMICO','ANALISTA','CONSULTA') then raise exception 'Rol inválido'; end if;
+  if exists(select 1 from public.perfiles_admin where lower(email)=p_email and activo) then raise exception 'Ya existe un usuario activo con ese correo'; end if;
+  v_token:=encode(extensions.gen_random_bytes(24),'hex');
+  v_hash:=encode(extensions.digest(v_token,'sha256'),'hex');
+  v_exp:=now()+interval '72 hours';
+  update public.invitaciones_admin set usado_at=coalesce(usado_at,now()) where lower(email)=p_email and usado_at is null;
+  insert into public.invitaciones_admin(email,nombre,rol,token_hash,expira_at,creado_por)
+  values(p_email,p_nombre,p_rol,v_hash,v_exp,(select auth.uid())) returning id into v_id;
+  return jsonb_build_object('ok',true,'id',v_id,'token',v_token,'email',p_email,'nombre',p_nombre,'rol',p_rol,'expira_at',v_exp);
+end; $$;
+
+create or replace function public.aceptar_invitacion(p_token text)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare inv public.invitaciones_admin%rowtype; v_email text; v_hash text;
+begin
+  if (select auth.uid()) is null then raise exception 'Debe iniciar sesión o confirmar su correo primero'; end if;
+  v_email:=lower(coalesce(auth.jwt()->>'email',''));
+  if v_email='' then raise exception 'La cuenta autenticada no contiene correo'; end if;
+  v_hash:=encode(extensions.digest(trim(coalesce(p_token,'')),'sha256'),'hex');
+  select * into inv from public.invitaciones_admin
+  where token_hash=v_hash and usado_at is null and expira_at>now() limit 1 for update;
+  if inv.id is null then raise exception 'Invitación inválida, utilizada o vencida'; end if;
+  if lower(inv.email)<>v_email then raise exception 'La invitación pertenece a otro correo'; end if;
+  insert into public.perfiles_admin(user_id,nombre,email,rol,activo)
+  values((select auth.uid()),inv.nombre,v_email,inv.rol,true)
+  on conflict(user_id) do update set nombre=excluded.nombre,email=excluded.email,rol=excluded.rol,activo=true;
+  update public.invitaciones_admin set usado_at=now() where id=inv.id;
+  return jsonb_build_object('ok',true,'nombre',inv.nombre,'rol',inv.rol);
+end; $$;
+
+create or replace function public.admin_actualizar_usuario(p_user uuid,p_nombre text,p_rol text,p_activo boolean)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare cur record; others int;
+begin
+  if not private.es_superadmin() then raise exception 'Solo SUPERADMIN puede administrar usuarios'; end if;
+  select * into cur from public.perfiles_admin where user_id=p_user;
+  if cur.user_id is null then raise exception 'Usuario no encontrado'; end if;
+  p_nombre:=trim(coalesce(p_nombre,'')); p_rol:=upper(trim(coalesce(p_rol,'')));
+  if p_nombre='' then raise exception 'Nombre obligatorio'; end if;
+  if p_rol not in ('SUPERADMIN','ADMIN_ACADEMICO','ANALISTA','CONSULTA') then raise exception 'Rol inválido'; end if;
+  if p_user=(select auth.uid()) and not p_activo then raise exception 'No puede inactivar su propio usuario'; end if;
+  if cur.rol='SUPERADMIN' and (p_rol<>'SUPERADMIN' or not p_activo) then
+    select count(*) into others from public.perfiles_admin where activo and rol='SUPERADMIN' and user_id<>p_user;
+    if others=0 then raise exception 'Debe existir al menos un SUPERADMIN activo'; end if;
+  end if;
+  update public.perfiles_admin set nombre=p_nombre,rol=p_rol,activo=p_activo where user_id=p_user;
+  return jsonb_build_object('ok',true);
+end; $$;
+
+create or replace function public.admin_revocar_invitacion(p_id uuid)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+begin
+  if not private.es_superadmin() then raise exception 'Solo SUPERADMIN puede revocar invitaciones'; end if;
+  update public.invitaciones_admin set usado_at=coalesce(usado_at,now()) where id=p_id;
+  return jsonb_build_object('ok',true);
+end; $$;
+
+create or replace function public.admin_guardar_personal(p_id bigint,p_tipo text,p_nombre text,p_foto_url text,p_activo boolean,p_orden integer)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare v_id bigint; v_old_nombre text; v_old_tipo text; v_codigo text; q record; maxord int;
+begin
+  if not private.puede_gestion_academica() then raise exception 'No autorizado para gestionar tutores y asesores'; end if;
+  p_tipo:=upper(trim(coalesce(p_tipo,''))); p_nombre:=trim(coalesce(p_nombre,''));
+  if p_tipo not in ('TUTOR','ASESOR') then raise exception 'Tipo inválido'; end if;
+  if p_nombre='' then raise exception 'Nombre obligatorio'; end if;
+  if p_id is null then
+    insert into public.personal_encuesta(tipo,nombre,foto_url,activo,orden)
+    values(p_tipo,p_nombre,nullif(trim(coalesce(p_foto_url,'')),''),coalesce(p_activo,true),greatest(coalesce(p_orden,1),1))
+    returning id into v_id;
+  else
+    select nombre,tipo into v_old_nombre,v_old_tipo from public.personal_encuesta where id=p_id;
+    if v_old_nombre is null then raise exception 'Registro no encontrado'; end if;
+    update public.personal_encuesta set tipo=p_tipo,nombre=p_nombre,foto_url=nullif(trim(coalesce(p_foto_url,'')),''),activo=coalesce(p_activo,true),orden=greatest(coalesce(p_orden,1),1),updated_at=now()
+    where id=p_id returning id into v_id;
+  end if;
+  v_codigo:=case when p_tipo='TUTOR' then '20930' else '20937' end;
+  -- Si se cambió de tipo/nombre, desactiva la opción anterior sin borrar historial.
+  if p_id is not null and (v_old_nombre is distinct from p_nombre or v_old_tipo is distinct from p_tipo) then
+    update public.opciones_pregunta op set activo=false
+    from public.preguntas pq
+    where op.pregunta_id=pq.id and pq.codigo=(case when v_old_tipo='TUTOR' then '20930' else '20937' end) and lower(op.etiqueta)=lower(v_old_nombre);
+  end if;
+  for q in select id from public.preguntas where codigo=v_codigo loop
+    if exists(select 1 from public.opciones_pregunta where pregunta_id=q.id and lower(etiqueta)=lower(p_nombre)) then
+      update public.opciones_pregunta set etiqueta=p_nombre,activo=coalesce(p_activo,true)
+      where pregunta_id=q.id and lower(etiqueta)=lower(p_nombre);
+    elsif coalesce(p_activo,true) then
+      select coalesce(max(orden),0)+1 into maxord from public.opciones_pregunta where pregunta_id=q.id;
+      insert into public.opciones_pregunta(pregunta_id,etiqueta,valor_numerico,no_aplica,orden,activo)
+      values(q.id,p_nombre,null,false,maxord,true);
+    end if;
+  end loop;
+  return jsonb_build_object('ok',true,'id',v_id);
+end; $$;
+
+create or replace function public.admin_monitoreo(p_campana uuid default null,p_limite integer default 100)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare result jsonb;
+begin
+  if not private.puede_monitorear() then raise exception 'No autorizado para monitoreo'; end if;
+  p_limite:=least(greatest(coalesce(p_limite,100),10),500);
+  with heads as (
+    select r.id,r.campana_id,r.oferta_id,r.created_at,o.carrera_id,o.docente_id,o.materia_id,o.nivel
+    from public.respuestas r join public.ofertas_academicas o on o.id=r.oferta_id
+    where p_campana is null or r.campana_id=p_campana
+  ), resumen as (
+    select h.id,h.created_at,ca.nombre carrera,h.nivel,m.nombre materia,d.nombre docente,
+      round(avg(case when rd.valor_numerico is not null and q.maximo is not null and q.maximo>0 then rd.valor_numerico/q.maximo*100 end),1) satisfaccion_pct,
+      round(avg(case when q.codigo='20933' then rd.valor_numerico end),2) calificacion_docente_10
+    from heads h join public.carreras ca on ca.id=h.carrera_id join public.materias m on m.id=h.materia_id join public.docentes d on d.id=h.docente_id
+    left join public.respuesta_detalle rd on rd.respuesta_id=h.id left join public.preguntas q on q.id=rd.pregunta_id
+    group by h.id,h.created_at,ca.nombre,h.nivel,m.nombre,d.nombre
+  )
+  select jsonb_build_object(
+    'total',(select count(*) from heads),
+    'hoy',(select count(*) from heads where created_at::date=current_date),
+    'ultima_hora',(select count(*) from heads where created_at>=now()-interval '1 hour'),
+    'ultimos_10_min',(select count(*) from heads where created_at>=now()-interval '10 minutes'),
+    'ultima_respuesta',(select max(created_at) from heads),
+    'por_carrera',(select coalesce(jsonb_agg(jsonb_build_object('carrera',carrera,'respuestas',respuestas) order by respuestas desc,carrera),'[]'::jsonb) from (
+      select ca.nombre carrera,count(*) respuestas from heads h join public.carreras ca on ca.id=h.carrera_id group by ca.nombre
+    ) z),
+    'por_nivel',(select coalesce(jsonb_agg(jsonb_build_object('nivel',nivel,'respuestas',respuestas) order by nivel),'[]'::jsonb) from (
+      select nivel,count(*) respuestas from heads group by nivel
+    ) z),
+    'recientes',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'fecha',created_at,'carrera',carrera,'nivel',nivel,'materia',materia,'docente',docente,'satisfaccion_pct',satisfaccion_pct,'calificacion_docente_10',calificacion_docente_10) order by created_at desc),'[]'::jsonb)
+      from (select * from resumen order by created_at desc limit p_limite) z)
+  ) into result;
+  return result;
+end; $$;
+
 create or replace function private.audit_change() returns trigger language plpgsql security definer set search_path='' as $$
 begin
   if (select auth.uid()) is not null then
@@ -501,6 +822,18 @@ drop trigger if exists trg_audit_preguntas on public.preguntas; create trigger t
 drop trigger if exists trg_audit_secciones on public.secciones; create trigger trg_audit_secciones after insert or update or delete on public.secciones for each row execute function private.audit_change();
 
 drop trigger if exists trg_audit_opciones_pregunta on public.opciones_pregunta; create trigger trg_audit_opciones_pregunta after insert or update or delete on public.opciones_pregunta for each row execute function private.audit_change();
+
+drop trigger if exists trg_audit_personal_encuesta on public.personal_encuesta; create trigger trg_audit_personal_encuesta after insert or update or delete on public.personal_encuesta for each row execute function private.audit_change();
+drop trigger if exists trg_audit_perfiles_admin on public.perfiles_admin; create trigger trg_audit_perfiles_admin after insert or update or delete on public.perfiles_admin for each row execute function private.audit_change();
+
+-- Personal del XML original. Las fotos se administran desde el panel; no se inventan URLs.
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'TUTOR','Andrea Valeria Trávez',1,true where not exists(select 1 from public.personal_encuesta where tipo='TUTOR' and lower(nombre)=lower('Andrea Valeria Trávez'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'TUTOR','Paoli Rojas',2,true where not exists(select 1 from public.personal_encuesta where tipo='TUTOR' and lower(nombre)=lower('Paoli Rojas'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'TUTOR','Allison Ayala',3,true where not exists(select 1 from public.personal_encuesta where tipo='TUTOR' and lower(nombre)=lower('Allison Ayala'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'TUTOR','Leslie Salazar',4,true where not exists(select 1 from public.personal_encuesta where tipo='TUTOR' and lower(nombre)=lower('Leslie Salazar'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'TUTOR','Ana Paula Arteaga',5,true where not exists(select 1 from public.personal_encuesta where tipo='TUTOR' and lower(nombre)=lower('Ana Paula Arteaga'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'ASESOR','Luis Hernández',1,true where not exists(select 1 from public.personal_encuesta where tipo='ASESOR' and lower(nombre)=lower('Luis Hernández'));
+insert into public.personal_encuesta(tipo,nombre,orden,activo) select 'ASESOR','Jaime Toapanta',2,true where not exists(select 1 from public.personal_encuesta where tipo='ASESOR' and lower(nombre)=lower('Jaime Toapanta'));
 
 insert into public.periodos(codigo,nombre,activo) values('ABR 2026_SEP 2026','ABR 2026 - SEP 2026',true) on conflict(codigo) do update set nombre=excluded.nombre,activo=true;
 
@@ -1140,8 +1473,41 @@ revoke execute on function public.admin_dashboard(uuid,bigint,bigint,text,date,d
 
 revoke execute on function public.admin_reporte_resumen(uuid,bigint,bigint,text,date,date) from public; grant execute on function public.admin_reporte_resumen(uuid,bigint,bigint,text,date,date) to authenticated;
 
+
+
+-- Bucket público solo para fotografías institucionales de tutores/asesores.
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
+values('personal-encuesta','personal-encuesta',true,5242880,array['image/jpeg','image/png','image/webp'])
+on conflict(id) do update set public=true,file_size_limit=excluded.file_size_limit,allowed_mime_types=excluded.allowed_mime_types;
+
+drop policy if exists personal_encuesta_storage_select on storage.objects;
+create policy personal_encuesta_storage_select on storage.objects for select to anon,authenticated using (bucket_id='personal-encuesta');
+drop policy if exists personal_encuesta_storage_insert on storage.objects;
+create policy personal_encuesta_storage_insert on storage.objects for insert to authenticated with check (bucket_id='personal-encuesta' and (select private.puede_gestion_academica()));
+drop policy if exists personal_encuesta_storage_update on storage.objects;
+create policy personal_encuesta_storage_update on storage.objects for update to authenticated using (bucket_id='personal-encuesta' and (select private.puede_gestion_academica())) with check (bucket_id='personal-encuesta' and (select private.puede_gestion_academica()));
+drop policy if exists personal_encuesta_storage_delete on storage.objects;
+create policy personal_encuesta_storage_delete on storage.objects for delete to authenticated using (bucket_id='personal-encuesta' and (select private.puede_gestion_academica()));
+
+-- Realtime para el monitor administrativo. RLS sigue determinando quién puede recibir eventos.
+do $$
+begin
+  if exists(select 1 from pg_publication where pubname='supabase_realtime')
+     and not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='respuestas') then
+    execute 'alter publication supabase_realtime add table public.respuestas';
+  end if;
+end $$;
+
+revoke execute on function public.admin_mi_perfil() from public; grant execute on function public.admin_mi_perfil() to authenticated;
+revoke execute on function public.admin_crear_invitacion(text,text,text) from public; grant execute on function public.admin_crear_invitacion(text,text,text) to authenticated;
+revoke execute on function public.aceptar_invitacion(text) from public; grant execute on function public.aceptar_invitacion(text) to authenticated;
+revoke execute on function public.admin_actualizar_usuario(uuid,text,text,boolean) from public; grant execute on function public.admin_actualizar_usuario(uuid,text,text,boolean) to authenticated;
+revoke execute on function public.admin_revocar_invitacion(uuid) from public; grant execute on function public.admin_revocar_invitacion(uuid) to authenticated;
+revoke execute on function public.admin_guardar_personal(bigint,text,text,text,boolean,integer) from public; grant execute on function public.admin_guardar_personal(bigint,text,text,text,boolean,integer) to authenticated;
+revoke execute on function public.admin_monitoreo(uuid,integer) from public; grant execute on function public.admin_monitoreo(uuid,integer) to authenticated;
+
 -- IMPORTANTE: cree el primer usuario en Authentication > Users y luego ejecute:
--- insert into public.perfiles_admin(user_id,nombre,rol) values('UUID-DEL-USUARIO','Administrador','SUPERADMIN');
+-- insert into public.perfiles_admin(user_id,nombre,email,rol) values('UUID-DEL-USUARIO','Administrador','correo@institucion.edu.ec','SUPERADMIN');
 </script>
 <script>
 const CONFIG={supabaseUrl:'https://pyvudqszqjpbhessgjzz.supabase.co',supabaseAnonKey:'sb_publishable_eHhXCKgoyB_Swjxix2jCpA_WDU18aQn',institution:'Instituto Superior Tecnológico Cordillera'};
@@ -1151,7 +1517,7 @@ const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmtDate=v=>v?new Date(v).toLocaleString('es-EC',{dateStyle:'medium',timeStyle:'short'}):'—';
 const configured=CONFIG.supabaseUrl.startsWith('https://')&&!CONFIG.supabaseUrl.includes('TU-PROYECTO')&&CONFIG.supabaseAnonKey&&!CONFIG.supabaseAnonKey.includes('TU-CLAVE');
 const sb=configured?supabase.createClient(CONFIG.supabaseUrl,CONFIG.supabaseAnonKey):null;
-let survey=null,answers={},sectionIndex=0,selectedOffer=null,academicRows=[],reportData=[],sectionChart=null,adminProfile=null,questionsCache=[],sectionsCache=[],pendingXmlItems=[],pendingXmlName="";
+let survey=null,answers={},sectionIndex=0,selectedOffer=null,academicRows=[],reportData=[],adminProfile=null,questionsCache=[],sectionsCache=[],pendingXmlItems=[],pendingXmlName="",monitorData=null,monitorRowsData=[],peopleCache=[],usersCache=[],invitesCache=[],realtimeChannel=null,inviteTokenGlobal=null;let charts={};
 function toast(msg,kind='ok'){const t=$('#toast');t.textContent=msg;t.style.background=kind==='err'?'#8e3320':'#153a3d';t.classList.remove('hidden');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.add('hidden'),4200)}
 function modal(id,show=true){$('#'+id).classList.toggle('hidden',!show)}
 $$('[data-close]').forEach(b=>b.onclick=()=>modal(b.dataset.close,false));
@@ -1166,7 +1532,7 @@ async function initPublic(){
   try{const {data,error}=await sb.rpc('obtener_encuesta_publica');if(error)throw error;survey=data;$('#publicLoading').classList.add('hidden');if(!data?.abierta){$('#closedState').classList.remove('hidden');return}renderSurveyStart()}catch(e){$('#publicLoading').classList.add('hidden');$('#closedState').classList.remove('hidden');$('#closedText').textContent='No fue posible consultar la campaña: '+e.message}
 }
 function renderSurveyStart(){
-  $('#surveyWrap').classList.remove('hidden');$('#campaignPeriod').textContent=survey.periodo||'';$('#campaignName').textContent=survey.nombre||'Encuesta de Satisfacción';$('#introMessage').innerHTML=textToHtml(survey.mensaje_inicio);$('#policyBody').textContent=survey.politica?.contenido||'';
+  $('#surveyWrap').classList.remove('hidden');$('#surveyIntroHero').classList.remove('hidden');$('#campaignPeriod').textContent=survey.periodo||'';$('#campaignName').textContent=survey.nombre||'Encuesta de Satisfacción';$('#introMessage').innerHTML=textToHtml(survey.mensaje_inicio);$('#policyBody').textContent=survey.politica?.contenido||'';
   const careers=[...new Set((survey.ofertas||[]).map(o=>o.carrera))].sort((a,b)=>a.localeCompare(b,'es'));$('#careerSel').innerHTML='<option value="">Seleccione…</option>'+careers.map(x=>`<option>${esc(x)}</option>`).join('');setProgress('Preparación',4);
 }
 function resetMatter(){selectedOffer=null;$('#offerSel').innerHTML='<option value="">Primero seleccione carrera y nivel…</option>';$('#offerSel').disabled=true;$('#startSurvey').disabled=true}
@@ -1194,61 +1560,108 @@ $('#offerSel').onchange=()=>{
   selectedOffer=(survey.ofertas||[]).find(o=>String(o.id)===$('#offerSel').value)||null;
   $('#startSurvey').disabled=!selectedOffer;
 };
-$('#startSurvey').onclick=()=>{if(!selectedOffer)return toast('Seleccione carrera, nivel y materia.','err');$('#stepSetup').classList.add('hidden');$('#stepQuestions').classList.remove('hidden');sectionIndex=0;renderSection()};
+$('#startSurvey').onclick=()=>{if(!selectedOffer)return toast('Seleccione carrera, nivel y materia.','err');$('#surveyIntroHero').classList.add('hidden');$('#stepSetup').classList.add('hidden');$('#stepQuestions').classList.remove('hidden');sectionIndex=0;renderSection()};
 function renderSection(){const secs=survey.secciones||[],s=secs[sectionIndex];if(!s)return;$('#sectionCounter').textContent=`Sección ${sectionIndex+1} de ${secs.length}`;$('#sectionTitle').textContent=s.titulo;$('#sectionTag').textContent=`${(s.preguntas||[]).length} preguntas`;$('#questionsArea').innerHTML=(s.preguntas||[]).map(renderQuestion).join('');$('#prevSection').disabled=sectionIndex===0;$('#nextSection').textContent=sectionIndex===secs.length-1?'Revisar →':'Continuar →';setProgress(s.titulo,8+((sectionIndex+1)/(secs.length+1))*80);wireAnswers(s);window.scrollTo({top:0,behavior:'smooth'})}
-function renderQuestion(q){const req=q.requerido?'<span class="required">*</span>':'';let body='';if(q.tipo==='multichoice'){body='<div class="options">'+(q.opciones||[]).map(o=>`<label class="option"><input type="radio" name="q_${q.id}" value="${o.id}" ${answers[q.id]?.opcion_id==o.id?'checked':''}><span>${esc(o.etiqueta)}${o.no_aplica?' <em class="muted">(No aplica al promedio)</em>':''}</span></label>`).join('')+'</div>'}else if(q.tipo==='numeric'){const a=Number(q.minimo||1),b=Number(q.maximo||10);body='<div class="scale">'+Array.from({length:b-a+1},(_,i)=>a+i).map(v=>`<label><input type="radio" name="q_${q.id}" value="${v}" ${String(answers[q.id]?.valor)===String(v)?'checked':''}>${v}</label>`).join('')+'</div><div class="muted" style="margin-top:7px">'+a+' = menor valoración · '+b+' = mayor valoración</div>'}else{body=`<textarea data-textq="${q.id}">${esc(answers[q.id]?.valor||'')}</textarea>`}return `<div class="question" data-q="${q.id}"><div class="question-title">${esc(q.texto)} ${req}</div>${body}</div>`}
+function normPersonName(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function initials(v){return String(v||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'?' }
+function personForOption(q,o){const tipo=q.codigo==='20930'?'TUTOR':q.codigo==='20937'?'ASESOR':null;if(!tipo)return null;const target=normPersonName(o.etiqueta);return (survey?.personal||[]).find(p=>p.tipo===tipo&&normPersonName(p.nombre)===target)||null}
+function renderQuestion(q){const req=q.requerido?'<span class="required">*</span>':'';let body='';if(q.tipo==='multichoice'){body='<div class="options">'+(q.opciones||[]).map(o=>{const p=personForOption(q,o);const avatar=p?(p.foto_url?`<img class="avatar" src="${esc(p.foto_url)}" alt="${esc(p.nombre)}">`:`<span class="avatar-fallback">${esc(initials(p.nombre))}</span>`):'';const cls=p?'option person-option':'option';const copy=p?`<span class="person-copy"><strong>${esc(o.etiqueta)}</strong><span class="person-type">${p.tipo==='TUTOR'?'Tutor/a virtual':'Asesor virtual'}</span></span>`:`<span>${esc(o.etiqueta)}${o.no_aplica?' <em class="muted">(No aplica al promedio)</em>':''}</span>`;return `<label class="${cls}"><input type="radio" name="q_${q.id}" value="${o.id}" ${answers[q.id]?.opcion_id==o.id?'checked':''}>${avatar}${copy}</label>`}).join('')+'</div>'}else if(q.tipo==='numeric'){const a=Number(q.minimo||1),b=Number(q.maximo||10);body='<div class="scale">'+Array.from({length:b-a+1},(_,i)=>a+i).map(v=>`<label><input type="radio" name="q_${q.id}" value="${v}" ${String(answers[q.id]?.valor)===String(v)?'checked':''}>${v}</label>`).join('')+'</div><div class="muted" style="margin-top:7px">'+a+' = menor valoración · '+b+' = mayor valoración</div>'}else{body=`<textarea data-textq="${q.id}">${esc(answers[q.id]?.valor||'')}</textarea>`}return `<div class="question" data-q="${q.id}"><div class="question-title">${esc(q.texto)} ${req}</div>${body}</div>`}
 function wireAnswers(s){(s.preguntas||[]).forEach(q=>{if(q.tipo==='multichoice')$$(`input[name="q_${q.id}"]`).forEach(i=>i.onchange=()=>answers[q.id]={pregunta_id:q.id,opcion_id:Number(i.value)});else if(q.tipo==='numeric')$$(`input[name="q_${q.id}"]`).forEach(i=>i.onchange=()=>answers[q.id]={pregunta_id:q.id,valor:Number(i.value)});else{const t=$(`[data-textq="${q.id}"]`);if(t)t.oninput=()=>answers[q.id]={pregunta_id:q.id,valor:t.value}}})}
 function sectionValid(){const s=(survey.secciones||[])[sectionIndex];const missing=(s.preguntas||[]).filter(q=>q.requerido&&!answers[q.id]);if(missing.length){toast('Complete las preguntas obligatorias antes de continuar.','err');const el=$(`[data-q="${missing[0].id}"]`);el?.scrollIntoView({behavior:'smooth',block:'center'});return false}return true}
 $('#prevSection').onclick=()=>{if(sectionIndex>0){sectionIndex--;renderSection()}};$('#nextSection').onclick=()=>{if(!sectionValid())return;if(sectionIndex<(survey.secciones||[]).length-1){sectionIndex++;renderSection()}else showReview()};
 function showReview(){$('#stepQuestions').classList.add('hidden');$('#stepReview').classList.remove('hidden');setProgress('Revisión',94);$('#reviewMeta').innerHTML=`<strong>${esc(selectedOffer.materia)}</strong><br>${esc(selectedOffer.carrera)} · Nivel ${esc(selectedOffer.nivel)}`;const required=(survey.secciones||[]).flatMap(s=>s.preguntas||[]).filter(q=>q.requerido);const missing=required.filter(q=>!answers[q.id]);$('#reviewMissing').innerHTML=missing.length?`<div class="notice errornotice">Faltan ${missing.length} respuestas obligatorias.</div>`:`<div class="notice oknotice">Todas las preguntas obligatorias están completas.</div>`}
 $('#backReview').onclick=()=>{$('#stepReview').classList.add('hidden');$('#stepQuestions').classList.remove('hidden');sectionIndex=(survey.secciones||[]).length-1;renderSection()};
 $('#submitSurvey').onclick=async()=>{const b=$('#submitSurvey');b.disabled=true;b.textContent='Enviando…';try{const payload=Object.values(answers);const {data,error}=await sb.rpc('enviar_encuesta',{p_campana:survey.campana_id,p_oferta:selectedOffer.id,p_respuestas:payload});if(error)throw error;$('#stepReview').classList.add('hidden');$('#stepSuccess').classList.remove('hidden');$('#finalMessage').innerHTML=textToHtml(data?.mensaje||survey.mensaje_fin);setProgress('Completada',100)}catch(e){toast(e.message,'err')}finally{b.disabled=false;b.textContent='✓ Enviar encuesta'}};
-$('#newSubject').onclick=()=>{answers={};selectedOffer=null;$('#offerSel').value='';$('#startSurvey').disabled=true;$('#stepSuccess').classList.add('hidden');$('#stepSetup').classList.remove('hidden');setProgress('Preparación',4);window.scrollTo({top:0,behavior:'smooth'})};
+$('#newSubject').onclick=()=>{answers={};selectedOffer=null;$('#offerSel').value='';$('#startSurvey').disabled=true;$('#stepSuccess').classList.add('hidden');$('#surveyIntroHero').classList.remove('hidden');$('#stepSetup').classList.remove('hidden');setProgress('Preparación',4);window.scrollTo({top:0,behavior:'smooth'})};
 
 // ---------------- ADMIN ----------------
-async function initAdmin(){
-  $('#publicApp').classList.add('hidden');$('#adminApp').classList.remove('hidden');$('#modeLink').textContent='← Encuesta';$('#modeLink').href=location.pathname;
-  if(!configured){$('#loginView').innerHTML=`<div class="login-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera"></div><img class="login-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><h2>Configuración pendiente</h2><div class="notice">Edite el bloque <strong>CONFIG</strong> de este HTML, ejecute el SQL incluido en Supabase y vuelva a cargar.</div><button class="btn btn-primary" id="dlSqlSetup" style="width:100%;margin-top:14px">Descargar SQL incluido</button>`;setTimeout(()=>$('#dlSqlSetup')&&($('#dlSqlSetup').onclick=downloadSql),0);return}
-  const {data}=await sb.auth.getSession();if(data.session)await openAdmin();
-}
-$('#loginBtn').onclick=async()=>{const b=$('#loginBtn');b.disabled=true;$('#loginMsg').innerHTML='';const {error}=await sb.auth.signInWithPassword({email:$('#loginEmail').value.trim(),password:$('#loginPassword').value});if(error){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(error.message)}</div>`;b.disabled=false;return}await openAdmin();b.disabled=false};
-async function openAdmin(){
-  try{const {data:{user}}=await sb.auth.getUser();const {data,error}=await sb.from('perfiles_admin').select('*').eq('user_id',user.id).single();if(error||!data?.activo){await sb.auth.signOut();throw new Error('El usuario existe en Auth pero no tiene un perfil administrativo activo.')}adminProfile=data;$('#adminUserTag').textContent=`${data.nombre} · ${data.rol}`;$('#loginView').classList.add('hidden');$('#adminShell').classList.remove('hidden');await Promise.all([loadCatalogs(),loadCampaigns(),loadQuestions(),loadAcademicStats()]);await loadDashboard()}catch(e){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(e.message)}</div>`}}
-$('#logoutBtn').onclick=async()=>{await sb.auth.signOut();location.reload()};
-$$('.navbtn[data-panel]').forEach(b=>b.onclick=()=>{$$('.navbtn[data-panel]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.admin-panel').forEach(x=>x.classList.add('hidden'));$('#panel-'+b.dataset.panel).classList.remove('hidden');$('#panelTitle').textContent=b.textContent.replace(/^[^A-Za-zÁÉÍÓÚ?]+/,'').trim();if(b.dataset.panel==='dashboard')loadDashboard();if(b.dataset.panel==='reports')runReport()});
+const ROLE_PANELS={
+ SUPERADMIN:['dashboard','monitor','reports','campaigns','academic','questions','people','users','security','install'],
+ ADMIN_ACADEMICO:['dashboard','monitor','reports','campaigns','academic','questions','people','security'],
+ ANALISTA:['dashboard','monitor','reports','security'],
+ CONSULTA:['dashboard','reports','security']
+};
+const canManageAcademic=()=>['SUPERADMIN','ADMIN_ACADEMICO'].includes(adminProfile?.rol);
+const isSuperAdmin=()=>adminProfile?.rol==='SUPERADMIN';
+function roleClass(r){return r==='SUPERADMIN'?'role-chip super':'role-chip'}
+function chartSet(key,canvas,type,labels,data,label,extra={}){if(charts[key])charts[key].destroy();const el=$(canvas);if(!el)return;charts[key]=new Chart(el,{type,data:{labels,datasets:[{label,data,backgroundColor:extra.backgroundColor||COLORS.verde,borderColor:extra.borderColor||COLORS.oscuro,borderWidth:extra.borderWidth??1,borderRadius:extra.borderRadius??6,fill:extra.fill||false,tension:extra.tension??.25}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:extra.indexAxis||'x',plugins:{legend:{display:extra.legend??true}},scales:extra.scales||undefined}})}
+function applyRoleUI(){const allowed=ROLE_PANELS[adminProfile?.rol]||[];$$('.navbtn[data-panel]').forEach(b=>b.classList.toggle('hidden',!allowed.includes(b.dataset.panel)));if($('#newCampaignBtn'))$('#newCampaignBtn').classList.toggle('hidden',!canManageAcademic());if($('#importAcademicBtn'))$('#importAcademicBtn').classList.toggle('hidden',!canManageAcademic());if($('#newQuestionBtn'))$('#newQuestionBtn').classList.toggle('hidden',!canManageAcademic());if($('#newPersonBtn'))$('#newPersonBtn').classList.toggle('hidden',!canManageAcademic());if($('#newUserBtn'))$('#newUserBtn').classList.toggle('hidden',!isSuperAdmin())}
 let catalogs={campaigns:[],periods:[],questionnaires:[],policies:[],careers:[],teachers:[],offers:[]};
+
+async function initAdmin(){
+ $('#publicApp').classList.add('hidden');$('#adminApp').classList.remove('hidden');$('#modeLink').textContent='← Encuesta';$('#modeLink').href=location.pathname;
+ if(!configured){$('#loginView').innerHTML=`<div class="login-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera"></div><img class="login-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"></div><h2>Configuración pendiente</h2><div class="notice">Configure Supabase y ejecute el SQL incluido.</div><button class="btn btn-primary" id="dlSqlSetup" style="width:100%;margin-top:14px">Descargar SQL incluido</button>`;setTimeout(()=>$('#dlSqlSetup')&&($('#dlSqlSetup').onclick=downloadSql),0);return}
+ inviteTokenGlobal=new URLSearchParams(location.search).get('invite');
+ const {data}=await sb.auth.getSession();
+ if(data.session){if(inviteTokenGlobal){try{await claimInvite()}catch(e){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(e.message)}</div>`}}await openAdmin();return}
+ if(inviteTokenGlobal){$('#loginView').classList.add('hidden');$('#inviteView').classList.remove('hidden')}
+}
+async function claimInvite(){if(!inviteTokenGlobal)return;const {error}=await sb.rpc('aceptar_invitacion',{p_token:inviteTokenGlobal});if(error)throw error;inviteTokenGlobal=null;history.replaceState({},'',location.pathname+'?admin=1')}
+$('#inviteExistingBtn').onclick=()=>{$('#inviteView').classList.add('hidden');$('#loginView').classList.remove('hidden')};
+$('#inviteSignupBtn').onclick=async()=>{const email=$('#inviteEmail').value.trim(),p1=$('#invitePassword').value,p2=$('#invitePassword2').value,msg=$('#inviteMsg');msg.innerHTML='';if(!email||p1.length<8||p1!==p2){msg.innerHTML='<div class="notice errornotice">Ingrese el correo invitado, una contraseña de al menos 8 caracteres y confirme correctamente.</div>';return}const b=$('#inviteSignupBtn');b.disabled=true;try{const redirect=new URL(location.href);redirect.searchParams.set('admin','1');redirect.searchParams.set('invite',inviteTokenGlobal);const {data,error}=await sb.auth.signUp({email,password:p1,options:{emailRedirectTo:redirect.toString()}});if(error)throw error;if(data.session){await claimInvite();await openAdmin()}else{msg.innerHTML='<div class="notice oknotice">Cuenta creada. Revisa el correo de confirmación y vuelve mediante el enlace; la invitación se aplicará después de autenticarte.</div>'}}catch(e){msg.innerHTML=`<div class="notice errornotice">${esc(e.message)}</div>`}finally{b.disabled=false}};
+$('#loginBtn').onclick=async()=>{const b=$('#loginBtn');b.disabled=true;$('#loginMsg').innerHTML='';const {error}=await sb.auth.signInWithPassword({email:$('#loginEmail').value.trim(),password:$('#loginPassword').value});if(error){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(error.message)}</div>`;b.disabled=false;return}try{if(inviteTokenGlobal)await claimInvite();await openAdmin()}catch(e){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(e.message)}</div>`}finally{b.disabled=false}};
+async function openAdmin(){try{const {data,error}=await sb.rpc('admin_mi_perfil');if(error||!data?.activo){await sb.auth.signOut();throw new Error('El usuario existe en Auth pero no tiene un perfil administrativo activo.')}adminProfile=data;$('#adminUserTag').textContent=`${data.nombre} · ${data.rol}`;$('#loginView').classList.add('hidden');$('#inviteView').classList.add('hidden');$('#adminShell').classList.remove('hidden');applyRoleUI();await loadCatalogs();await loadCampaigns();await loadAcademicStats();if(canManageAcademic())await Promise.all([loadQuestions(),loadPeople()]);if(isSuperAdmin())await loadUsers();await loadDashboard();if((ROLE_PANELS[data.rol]||[]).includes('monitor'))startRealtimeMonitor()}catch(e){$('#loginMsg').innerHTML=`<div class="notice errornotice">${esc(e.message)}</div>`}}
+$('#logoutBtn').onclick=async()=>{if(realtimeChannel)await sb.removeChannel(realtimeChannel);await sb.auth.signOut();location.reload()};
+$$('.navbtn[data-panel]').forEach(b=>b.onclick=async()=>{const allowed=ROLE_PANELS[adminProfile?.rol]||[];if(!allowed.includes(b.dataset.panel))return toast('Su rol no tiene acceso a este módulo.','err');$$('.navbtn[data-panel]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.admin-panel').forEach(x=>x.classList.add('hidden'));$('#panel-'+b.dataset.panel).classList.remove('hidden');$('#panelTitle').textContent=b.textContent.replace(/^[^A-Za-zÁÉÍÓÚ?]+/,'').trim();if(b.dataset.panel==='dashboard')await loadDashboard();if(b.dataset.panel==='reports')await runReport();if(b.dataset.panel==='monitor')await loadMonitor();if(b.dataset.panel==='people')await loadPeople();if(b.dataset.panel==='users')await loadUsers()});
+
 async function loadCatalogs(){const [p,q,pol,ca,t,o]=await Promise.all([sb.from('periodos').select('*').order('codigo'),sb.from('cuestionarios').select('*').order('version',{ascending:false}),sb.from('politicas_privacidad').select('*').eq('activo',true),sb.from('carreras').select('*').order('nombre'),sb.from('docentes').select('id,nombre,activo').eq('activo',true).order('nombre'),sb.from('ofertas_academicas').select('id,nivel')]);catalogs.periods=p.data||[];catalogs.questionnaires=q.data||[];catalogs.policies=pol.data||[];catalogs.careers=ca.data||[];catalogs.teachers=t.data||[];catalogs.offers=o.data||[];fillFilters()}
-function fillFilters(){$('#campPeriod').innerHTML=catalogs.periods.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#campQuestionnaire').innerHTML=catalogs.questionnaires.map(x=>`<option value="${x.id}">${esc(x.nombre)} v${x.version}</option>`).join('');$('#campPolicy').innerHTML=catalogs.policies.map(x=>`<option value="${x.id}">${esc(x.version)} - ${esc(x.titulo)}</option>`).join('');$('#fCareer').innerHTML='<option value="">Todas</option>'+catalogs.careers.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#fTeacher').innerHTML='<option value="">Todos</option>'+catalogs.teachers.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');const lv=[...new Set(catalogs.offers.map(x=>x.nivel))].sort();$('#fLevel').innerHTML='<option value="">Todos</option>'+lv.map(x=>`<option>${esc(x)}</option>`).join('')}
-async function loadCampaigns(){const {data,error}=await sb.from('campanas').select('*,periodos(nombre,codigo),cuestionarios(nombre,version),politicas_privacidad(version)').order('created_at',{ascending:false});if(error)return toast(error.message,'err');catalogs.campaigns=data||[];$('#fCampaign').innerHTML='<option value="">Todas</option>'+catalogs.campaigns.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#campaignRows').innerHTML=catalogs.campaigns.map(c=>`<tr><td><strong>${esc(c.nombre)}</strong></td><td>${esc(c.periodos?.nombre||'')}</td><td>${fmtDate(c.fecha_inicio)}</td><td>${fmtDate(c.fecha_fin)}</td><td><span class="tag ${c.estado==='CERRADA'?'orange':''}">${esc(c.estado)}</span></td><td><div class="toolbar"><button class="btn btn-light btn-sm" onclick="editCampaign('${c.id}')">Editar</button>${c.estado!=='ABIERTA'?`<button class="btn btn-primary btn-sm" onclick="setCampaignState('${c.id}','ABIERTA')">Abrir</button>`:`<button class="btn btn-orange btn-sm" onclick="setCampaignState('${c.id}','CERRADA')">Cerrar</button>`}</div></td></tr>`).join('');const open=catalogs.campaigns.find(x=>x.estado==='ABIERTA');$('#campaignStatusBox').innerHTML=open?`<strong>${esc(open.nombre)}</strong><br>Inicio: ${fmtDate(open.fecha_inicio)}<br>Cierre: ${fmtDate(open.fecha_fin)}`:'No existe una campaña marcada como ABIERTA.'}
-window.setCampaignState=async(id,state)=>{if(state==='ABIERTA'){const c=catalogs.campaigns.find(x=>x.id===id);if(!c.fecha_inicio||!c.fecha_fin)return toast('Defina fecha de inicio y cierre antes de abrir.','err');await sb.from('campanas').update({estado:'CERRADA'}).eq('estado','ABIERTA').neq('id',id)}const {error}=await sb.from('campanas').update({estado:state,updated_at:new Date().toISOString()}).eq('id',id);if(error)return toast(error.message,'err');toast('Estado actualizado');await loadCampaigns();await loadDashboard()}
+function fillFilters(){$('#campPeriod').innerHTML=catalogs.periods.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#campQuestionnaire').innerHTML=catalogs.questionnaires.map(x=>`<option value="${x.id}">${esc(x.nombre)} v${x.version}</option>`).join('');$('#campPolicy').innerHTML=catalogs.policies.map(x=>`<option value="${x.id}">${esc(x.version)} - ${esc(x.titulo)}</option>`).join('');$('#fCareer').innerHTML='<option value="">Todas</option>'+catalogs.careers.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#fTeacher').innerHTML='<option value="">Todos</option>'+catalogs.teachers.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');const lv=[...new Set(catalogs.offers.map(x=>x.nivel))].sort((a,b)=>String(a).localeCompare(String(b),'es',{numeric:true}));$('#fLevel').innerHTML='<option value="">Todos</option>'+lv.map(x=>`<option>${esc(x)}</option>`).join('')}
+async function loadCampaigns(){const {data,error}=await sb.from('campanas').select('*,periodos(nombre,codigo),cuestionarios(nombre,version),politicas_privacidad(version)').order('created_at',{ascending:false});if(error)return toast(error.message,'err');catalogs.campaigns=data||[];const opts='<option value="">Todas</option>'+catalogs.campaigns.map(x=>`<option value="${x.id}">${esc(x.nombre)}</option>`).join('');$('#fCampaign').innerHTML=opts;$('#monitorCampaign').innerHTML=opts;const manage=canManageAcademic();$('#campaignRows').innerHTML=catalogs.campaigns.map(c=>`<tr><td><strong>${esc(c.nombre)}</strong></td><td>${esc(c.periodos?.nombre||'')}</td><td>${fmtDate(c.fecha_inicio)}</td><td>${fmtDate(c.fecha_fin)}</td><td><span class="tag ${c.estado==='CERRADA'?'orange':''}">${esc(c.estado)}</span></td><td>${manage?`<div class="toolbar"><button class="btn btn-light btn-sm" onclick="editCampaign('${c.id}')">Editar</button>${c.estado!=='ABIERTA'?`<button class="btn btn-primary btn-sm" onclick="setCampaignState('${c.id}','ABIERTA')">Abrir</button>`:`<button class="btn btn-orange btn-sm" onclick="setCampaignState('${c.id}','CERRADA')">Cerrar</button>`}</div>`:'<span class="muted">Solo lectura</span>'}</td></tr>`).join('');const open=catalogs.campaigns.find(x=>x.estado==='ABIERTA');$('#campaignStatusBox').innerHTML=open?`<strong>${esc(open.nombre)}</strong><br>Inicio: ${fmtDate(open.fecha_inicio)}<br>Cierre: ${fmtDate(open.fecha_fin)}`:'No existe una campaña marcada como ABIERTA.';if(open&&!$('#monitorCampaign').value)$('#monitorCampaign').value=open.id}
+window.setCampaignState=async(id,state)=>{if(!canManageAcademic())return toast('Sin permiso.','err');if(state==='ABIERTA'){const c=catalogs.campaigns.find(x=>x.id===id);if(!c.fecha_inicio||!c.fecha_fin)return toast('Defina fecha de inicio y cierre antes de abrir.','err');await sb.from('campanas').update({estado:'CERRADA'}).eq('estado','ABIERTA').neq('id',id)}const {error}=await sb.from('campanas').update({estado:state,updated_at:new Date().toISOString()}).eq('id',id);if(error)return toast(error.message,'err');toast('Estado actualizado');await loadCampaigns();await loadDashboard()};
 function localDT(v){if(!v)return'';const d=new Date(v);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)}
-window.editCampaign=id=>{const c=catalogs.campaigns.find(x=>x.id===id);if(!c)return;$('#campId').value=c.id;$('#campName').value=c.nombre;$('#campPeriod').value=c.periodo_id;$('#campQuestionnaire').value=c.cuestionario_id;$('#campPolicy').value=c.politica_id||'';$('#campStart').value=localDT(c.fecha_inicio);$('#campEnd').value=localDT(c.fecha_fin);$('#campIntro').value=c.mensaje_inicio;$('#campFinal').value=c.mensaje_fin;$('#campaignModalTitle').textContent='Editar campaña';modal('campaignModal',true)};
-$('#newCampaignBtn').onclick=()=>{$('#campId').value='';$('#campName').value='';$('#campStart').value='';$('#campEnd').value='';$('#campIntro').value='';$('#campFinal').value='';$('#campaignModalTitle').textContent='Nueva campaña';modal('campaignModal',true)};
-$('#saveCampaign').onclick=async()=>{const payload={nombre:$('#campName').value.trim(),periodo_id:Number($('#campPeriod').value),cuestionario_id:Number($('#campQuestionnaire').value),politica_id:Number($('#campPolicy').value)||null,fecha_inicio:$('#campStart').value?new Date($('#campStart').value).toISOString():null,fecha_fin:$('#campEnd').value?new Date($('#campEnd').value).toISOString():null,mensaje_inicio:$('#campIntro').value,mensaje_fin:$('#campFinal').value,updated_at:new Date().toISOString()};if(!payload.nombre)return toast('Ingrese el nombre de la campaña.','err');if(payload.fecha_inicio&&payload.fecha_fin&&new Date(payload.fecha_fin)<=new Date(payload.fecha_inicio))return toast('La fecha de cierre debe ser posterior al inicio.','err');const id=$('#campId').value;const r=id?await sb.from('campanas').update(payload).eq('id',id):await sb.from('campanas').insert({...payload,estado:'BORRADOR'});if(r.error)return toast(r.error.message,'err');modal('campaignModal',false);toast('Campaña guardada');await loadCampaigns()};
+window.editCampaign=id=>{if(!canManageAcademic())return;const c=catalogs.campaigns.find(x=>x.id===id);if(!c)return;$('#campId').value=c.id;$('#campName').value=c.nombre;$('#campPeriod').value=c.periodo_id;$('#campQuestionnaire').value=c.cuestionario_id;$('#campPolicy').value=c.politica_id||'';$('#campStart').value=localDT(c.fecha_inicio);$('#campEnd').value=localDT(c.fecha_fin);$('#campIntro').value=c.mensaje_inicio;$('#campFinal').value=c.mensaje_fin;$('#campaignModalTitle').textContent='Editar campaña';modal('campaignModal',true)};
+$('#newCampaignBtn').onclick=()=>{if(!canManageAcademic())return;$('#campId').value='';$('#campName').value='';$('#campStart').value='';$('#campEnd').value='';$('#campIntro').value='';$('#campFinal').value='';$('#campaignModalTitle').textContent='Nueva campaña';modal('campaignModal',true)};
+$('#saveCampaign').onclick=async()=>{if(!canManageAcademic())return toast('Sin permiso.','err');const payload={nombre:$('#campName').value.trim(),periodo_id:Number($('#campPeriod').value),cuestionario_id:Number($('#campQuestionnaire').value),politica_id:Number($('#campPolicy').value)||null,fecha_inicio:$('#campStart').value?new Date($('#campStart').value).toISOString():null,fecha_fin:$('#campEnd').value?new Date($('#campEnd').value).toISOString():null,mensaje_inicio:$('#campIntro').value,mensaje_fin:$('#campFinal').value,updated_at:new Date().toISOString()};if(!payload.nombre)return toast('Ingrese el nombre de la campaña.','err');if(payload.fecha_inicio&&payload.fecha_fin&&new Date(payload.fecha_fin)<=new Date(payload.fecha_inicio))return toast('La fecha de cierre debe ser posterior al inicio.','err');const id=$('#campId').value;const r=id?await sb.from('campanas').update(payload).eq('id',id):await sb.from('campanas').insert({...payload,estado:'BORRADOR'});if(r.error)return toast(r.error.message,'err');modal('campaignModal',false);toast('Campaña guardada');await loadCampaigns()};
+
 async function loadAcademicStats(){const [d,m,o]=await Promise.all([sb.from('docentes').select('*',{count:'exact',head:true}),sb.from('materias').select('*',{count:'exact',head:true}),sb.from('ofertas_academicas').select('*',{count:'exact',head:true})]);$('#acTeachers').textContent=d.count||0;$('#acSubjects').textContent=m.count||0;$('#acOffers').textContent=o.count||0}
-$('#academicFile').onchange=async e=>{academicRows=[];const f=e.target.files[0];if(!f)return;try{const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]];academicRows=XLSX.utils.sheet_to_json(ws,{defval:''}).map(r=>Object.fromEntries(Object.entries(r).map(([k,v])=>[String(k).trim(),String(v).trim().replace(/\.0$/,'')])));const required=['MATERIA','CARRERA','MODALIDAD','NIVEL','PAR','JORNADA','CED PROF','PROFESOR','PERIODO','ESTADO'];const miss=required.filter(h=>!academicRows.length||!(h in academicRows[0]));if(miss.length)throw new Error('Faltan columnas: '+miss.join(', '));$('#academicPreview').innerHTML=`<div class="notice oknotice">${academicRows.length} filas listas para importar.</div>`;$('#importAcademicBtn').disabled=!academicRows.length}catch(err){$('#academicPreview').innerHTML=`<div class="notice errornotice">${esc(err.message)}</div>`;$('#importAcademicBtn').disabled=true}}
-$('#importAcademicBtn').onclick=async()=>{const b=$('#importAcademicBtn');b.disabled=true;b.textContent='Importando…';try{const chunks=[];for(let i=0;i<academicRows.length;i+=250)chunks.push(academicRows.slice(i,i+250));let total=0;for(const ch of chunks){const {data,error}=await sb.rpc('admin_importar_ofertas',{p_rows:ch});if(error)throw error;total+=data.procesados||0}toast(`${total} registros procesados.`);await Promise.all([loadCatalogs(),loadAcademicStats()])}catch(e){toast(e.message,'err')}finally{b.disabled=false;b.textContent='Importar a Supabase'}};
-async function loadQuestions(){const {data,error}=await sb.from('preguntas').select('*,secciones(id,titulo),opciones_pregunta(*)').order('orden');if(error)return;questionsCache=data||[];const {data:secs}=await sb.from('secciones').select('*').eq('activo',true).order('orden');sectionsCache=secs||[];$('#qSection').innerHTML=sectionsCache.map(s=>`<option value="${s.id}">${esc(s.titulo)}</option>`).join('');$('#questionRows').innerHTML=questionsCache.map(q=>`<tr><td>${q.orden}</td><td>${esc(q.secciones?.titulo||'')}</td><td>${esc(q.texto)}</td><td>${esc(q.tipo)}</td><td>${q.requerido?'Sí':'No'}</td><td><span class="tag ${q.activo?'':'orange'}">${q.activo?'ACTIVA':'INACTIVA'}</span></td><td><div class="toolbar"><button class="btn btn-light btn-sm" onclick="editQuestion(${q.id})">Editar</button><button class="btn btn-danger btn-sm" onclick="toggleQuestion(${q.id},${q.activo?'false':'true'})">${q.activo?'Eliminar':'Reactivar'}</button></div></td></tr>`).join('')}
-window.toggleQuestion=async(id,state)=>{const {error}=await sb.from('preguntas').update({activo:state}).eq('id',id);if(error)return toast(error.message,'err');toast(state?'Pregunta reactivada':'Pregunta inactivada para conservar historial');loadQuestions()};
+$('#academicFile').onchange=async e=>{academicRows=[];const f=e.target.files[0];if(!f)return;try{const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]];academicRows=XLSX.utils.sheet_to_json(ws,{defval:''}).map(r=>Object.fromEntries(Object.entries(r).map(([k,v])=>[String(k).trim(),String(v).trim().replace(/\.0$/,'')])));const required=['MATERIA','CARRERA','MODALIDAD','NIVEL','PAR','JORNADA','CED PROF','PROFESOR','PERIODO','ESTADO'];const miss=required.filter(h=>!academicRows.length||!(h in academicRows[0]));if(miss.length)throw new Error('Faltan columnas: '+miss.join(', '));$('#academicPreview').innerHTML=`<div class="notice oknotice">${academicRows.length} filas listas para importar.</div>`;$('#importAcademicBtn').disabled=!academicRows.length}catch(err){$('#academicPreview').innerHTML=`<div class="notice errornotice">${esc(err.message)}</div>`;$('#importAcademicBtn').disabled=true}};
+$('#importAcademicBtn').onclick=async()=>{if(!canManageAcademic())return toast('Sin permiso.','err');const b=$('#importAcademicBtn');b.disabled=true;b.textContent='Importando…';try{const chunks=[];for(let i=0;i<academicRows.length;i+=250)chunks.push(academicRows.slice(i,i+250));let total=0;for(const ch of chunks){const {data,error}=await sb.rpc('admin_importar_ofertas',{p_rows:ch});if(error)throw error;total+=data.procesados||0}toast(`${total} registros procesados.`);await Promise.all([loadCatalogs(),loadAcademicStats()])}catch(e){toast(e.message,'err')}finally{b.disabled=false;b.textContent='Importar a Supabase'}};
+
+async function loadQuestions(){if(!canManageAcademic())return;const {data,error}=await sb.from('preguntas').select('*,secciones(id,titulo),opciones_pregunta(*)').order('orden');if(error)return;questionsCache=data||[];const {data:secs}=await sb.from('secciones').select('*').eq('activo',true).order('orden');sectionsCache=secs||[];$('#qSection').innerHTML=sectionsCache.map(s=>`<option value="${s.id}">${esc(s.titulo)}</option>`).join('');$('#questionRows').innerHTML=questionsCache.map(q=>`<tr><td>${q.orden}</td><td>${esc(q.secciones?.titulo||'')}</td><td>${esc(q.texto)}</td><td>${esc(q.tipo)}</td><td>${q.requerido?'Sí':'No'}</td><td><span class="tag ${q.activo?'':'orange'}">${q.activo?'ACTIVA':'INACTIVA'}</span></td><td><div class="toolbar"><button class="btn btn-light btn-sm" onclick="editQuestion(${q.id})">Editar</button><button class="btn btn-danger btn-sm" onclick="toggleQuestion(${q.id},${q.activo?'false':'true'})">${q.activo?'Eliminar':'Reactivar'}</button></div></td></tr>`).join('')}
+window.toggleQuestion=async(id,state)=>{if(!canManageAcademic())return;const {error}=await sb.from('preguntas').update({activo:state}).eq('id',id);if(error)return toast(error.message,'err');toast(state?'Pregunta reactivada':'Pregunta inactivada para conservar historial');loadQuestions()};
 window.editQuestion=id=>{const q=questionsCache.find(x=>x.id===id);if(!q)return;$('#qId').value=q.id;$('#qSection').value=q.seccion_id;$('#qType').value=q.tipo;$('#qCode').value=q.codigo;$('#qCode').disabled=true;$('#qOrder').value=q.orden;$('#qText').value=q.texto;$('#qMin').value=q.minimo??'';$('#qMax').value=q.maximo??'';$('#qReq').value=String(q.requerido);$('#qOptions').value=(q.opciones_pregunta||[]).sort((a,b)=>a.orden-b.orden).map(o=>`${o.no_aplica?'NA':(o.valor_numerico??'')}|${o.etiqueta}`).join('\n');$('#qOptions').disabled=true;modal('questionModal',true)};
-$('#newQuestionBtn').onclick=()=>{$('#qId').value='';$('#qSection').value=sectionsCache[0]?.id||'';$('#qType').value='multichoice';$('#qCode').value='MANUAL_'+Date.now();$('#qCode').disabled=false;$('#qOrder').value=(Math.max(0,...questionsCache.map(x=>x.orden))+1);$('#qText').value='';$('#qMin').value='';$('#qMax').value='';$('#qReq').value='false';$('#qOptions').value='';$('#qOptions').disabled=false;modal('questionModal',true)};
-$('#saveQuestion').onclick=async()=>{const id=$('#qId').value;const sec=sectionsCache.find(s=>String(s.id)===$('#qSection').value);if(!sec)return toast('Seleccione sección.','err');const questionnaireId=sec.cuestionario_id;const payload={cuestionario_id:questionnaireId,seccion_id:Number($('#qSection').value),codigo:$('#qCode').value.trim(),tipo:$('#qType').value,texto:$('#qText').value.trim(),requerido:$('#qReq').value==='true',orden:Number($('#qOrder').value),minimo:$('#qMin').value===''?null:Number($('#qMin').value),maximo:$('#qMax').value===''?null:Number($('#qMax').value),activo:true};if(!payload.texto||!payload.codigo)return toast('Código y texto son obligatorios.','err');let qid=id?Number(id):null;let r=id?await sb.from('preguntas').update(payload).eq('id',qid).select().single():await sb.from('preguntas').insert(payload).select().single();if(r.error)return toast(r.error.message,'err');qid=r.data?.id||qid;if(!id&&payload.tipo==='multichoice'){const lines=$('#qOptions').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const opts=lines.map((line,i)=>{const [raw,...rest]=line.split('|');return {pregunta_id:qid,etiqueta:rest.join('|').trim()||raw.trim(),valor_numerico:raw.trim().toUpperCase()==='NA'||raw.trim()===''?null:Number(raw),no_aplica:raw.trim().toUpperCase()==='NA',orden:i+1,activo:true}});if(opts.length){const ir=await sb.from('opciones_pregunta').insert(opts);if(ir.error)return toast(ir.error.message,'err')}}modal('questionModal',false);toast('Pregunta guardada');loadQuestions()};
-$('#xmlFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const txt=await f.text(),doc=new DOMParser().parseFromString(txt,'application/xml');if(doc.querySelector('parsererror'))throw new Error('XML inválido');const items=[...doc.querySelectorAll('ITEM')];let sec=null,secN=0,qN=0;const parsed=[];for(const it of items){const type=it.getAttribute('TYPE');const code=it.querySelector('ITEMID')?.textContent.trim()||'';const text=it.querySelector('ITEMTEXT')?.textContent.trim()||'';const pres=it.querySelector('PRESENTATION')?.textContent.trim()||'';if(type==='label'){secN++;const title=pres.replace(/<[^>]+>/g,'').trim();sec={code,title,order:secN};parsed.push({kind:'section',...sec})}else if(['multichoice','numeric'].includes(type)){qN++;let options=[];let min=null,max=null;if(type==='multichoice'){let raw=pres.includes('>>>>>')?pres.split('>>>>>')[1]:pres;options=raw.split('|').map(x=>x.trim()).filter(Boolean).map((x,i)=>{const m=x.match(/^([0-9]+(?:\.[0-9]+)?)\s+(.*)$/);let score=m?Number(m[1]):null,label=m?m[2]:x,no=false;if(/no utilic/i.test(label)){score=null;no=true}return {label,score,no,order:i+1}});const nums=options.filter(x=>x.score!=null).map(x=>x.score);if(nums.length>=3){min=Math.min(...nums);max=Math.max(...nums)}}else{const a=pres.split('|').map(Number);min=a[0];max=a[1]}parsed.push({kind:'question',code,type,text,required:it.getAttribute('REQUIRED')==='1',order:qN,sectionCode:sec?.code,min,max,options})}}
-  pendingXmlItems=parsed;pendingXmlName=f.name.replace(/\.xml$/i,'');$('#saveXmlImport').classList.remove('hidden');$('#xmlPreview').innerHTML=`<div class="notice oknotice">XML analizado: ${secN} secciones y ${qN} preguntas. Al guardar se creará una <strong>nueva versión</strong> para no alterar respuestas históricas.</div>`;toast('XML validado correctamente')
-}catch(err){$('#xmlPreview').innerHTML=`<div class="notice errornotice">${esc(err.message)}</div>`}}
-$('#saveXmlImport').onclick=async()=>{if(!pendingXmlItems.length)return toast('Primero seleccione un XML válido.','err');const b=$('#saveXmlImport');b.disabled=true;b.textContent='Importando…';try{const {data,error}=await sb.rpc('admin_importar_cuestionario',{p_nombre:pendingXmlName||'Cuestionario importado',p_items:pendingXmlItems});if(error)throw error;toast(`Cuestionario v${data.version} creado: ${data.secciones} secciones, ${data.preguntas} preguntas.`);pendingXmlItems=[];b.classList.add('hidden');$('#xmlPreview').innerHTML='<div class="notice oknotice">Importación completada. La nueva versión ya puede seleccionarse al crear una campaña.</div>';await Promise.all([loadCatalogs(),loadQuestions()])}catch(e){toast(e.message,'err')}finally{b.disabled=false;b.textContent='Crear nueva versión con este XML'}};
-async function loadDashboard(){const camp=$('#fCampaign')?.value||catalogs.campaigns.find(x=>x.estado==='ABIERTA')?.id||catalogs.campaigns[0]?.id||null;const {data,error}=await sb.rpc('admin_dashboard',{p_campana:camp||null,p_docente:null,p_carrera:null,p_nivel:null,p_desde:null,p_hasta:null});if(error)return;$('#kpiResponses').textContent=data.respuestas||0;$('#kpiTeachers').textContent=data.docentes||0;$('#kpiSatisfaction').textContent=data.satisfaccion_pct!=null?data.satisfaccion_pct+'%':'—';$('#kpiTeacher10').textContent=data.docente_10??'—';const labels=(data.secciones||[]).map(x=>x.seccion),vals=(data.secciones||[]).map(x=>x.porcentaje);if(sectionChart)sectionChart.destroy();sectionChart=new Chart($('#sectionChart'),{type:'bar',data:{labels,datasets:[{label:'Satisfacción %',data:vals,backgroundColor:COLORS.verde,borderColor:COLORS.oscuro,borderWidth:1,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:100}}}})}
+$('#newQuestionBtn').onclick=()=>{if(!canManageAcademic())return;$('#qId').value='';$('#qSection').value=sectionsCache[0]?.id||'';$('#qType').value='multichoice';$('#qCode').value='MANUAL_'+Date.now();$('#qCode').disabled=false;$('#qOrder').value=(Math.max(0,...questionsCache.map(x=>x.orden))+1);$('#qText').value='';$('#qMin').value='';$('#qMax').value='';$('#qReq').value='false';$('#qOptions').value='';$('#qOptions').disabled=false;modal('questionModal',true)};
+$('#saveQuestion').onclick=async()=>{if(!canManageAcademic())return toast('Sin permiso.','err');const id=$('#qId').value;const sec=sectionsCache.find(s=>String(s.id)===$('#qSection').value);if(!sec)return toast('Seleccione sección.','err');const payload={cuestionario_id:sec.cuestionario_id,seccion_id:Number($('#qSection').value),codigo:$('#qCode').value.trim(),tipo:$('#qType').value,texto:$('#qText').value.trim(),requerido:$('#qReq').value==='true',orden:Number($('#qOrder').value),minimo:$('#qMin').value===''?null:Number($('#qMin').value),maximo:$('#qMax').value===''?null:Number($('#qMax').value),activo:true};if(!payload.texto||!payload.codigo)return toast('Código y texto son obligatorios.','err');let qid=id?Number(id):null;let r=id?await sb.from('preguntas').update(payload).eq('id',qid).select().single():await sb.from('preguntas').insert(payload).select().single();if(r.error)return toast(r.error.message,'err');qid=r.data?.id||qid;if(!id&&payload.tipo==='multichoice'){const lines=$('#qOptions').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const opts=lines.map((line,i)=>{const [raw,...rest]=line.split('|');return {pregunta_id:qid,etiqueta:rest.join('|').trim()||raw.trim(),valor_numerico:raw.trim().toUpperCase()==='NA'||raw.trim()===''?null:Number(raw),no_aplica:raw.trim().toUpperCase()==='NA',orden:i+1,activo:true}});if(opts.length){const ir=await sb.from('opciones_pregunta').insert(opts);if(ir.error)return toast(ir.error.message,'err')}}modal('questionModal',false);toast('Pregunta guardada');loadQuestions()};
+$('#xmlFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const txt=await f.text(),doc=new DOMParser().parseFromString(txt,'application/xml');if(doc.querySelector('parsererror'))throw new Error('XML inválido');const items=[...doc.querySelectorAll('ITEM')];let sec=null,secN=0,qN=0;const parsed=[];for(const it of items){const type=it.getAttribute('TYPE');const code=it.querySelector('ITEMID')?.textContent.trim()||'';const text=it.querySelector('ITEMTEXT')?.textContent.trim()||'';const pres=it.querySelector('PRESENTATION')?.textContent.trim()||'';if(type==='label'){secN++;const title=pres.replace(/<[^>]+>/g,'').trim();sec={code,title,order:secN};parsed.push({kind:'section',...sec})}else if(['multichoice','numeric'].includes(type)){qN++;let options=[];let min=null,max=null;if(type==='multichoice'){let raw=pres.includes('>>>>>')?pres.split('>>>>>')[1]:pres;options=raw.split('|').map(x=>x.trim()).filter(Boolean).map((x,i)=>{const m=x.match(/^([0-9]+(?:\.[0-9]+)?)\s+(.*)$/);let score=m?Number(m[1]):null,label=m?m[2]:x,no=false;if(/no utilic/i.test(label)){score=null;no=true}return {label,score,no,order:i+1}});const nums=options.filter(x=>x.score!=null).map(x=>x.score);if(nums.length>=3){min=Math.min(...nums);max=Math.max(...nums)}}else{const a=pres.split('|').map(Number);min=a[0];max=a[1]}parsed.push({kind:'question',code,type,text,required:it.getAttribute('REQUIRED')==='1',order:qN,sectionCode:sec?.code,min,max,options})}}pendingXmlItems=parsed;pendingXmlName=f.name.replace(/\.xml$/i,'');$('#saveXmlImport').classList.remove('hidden');$('#xmlPreview').innerHTML=`<div class="notice oknotice">XML analizado: ${secN} secciones y ${qN} preguntas. Al guardar se creará una <strong>nueva versión</strong>.</div>`}catch(err){$('#xmlPreview').innerHTML=`<div class="notice errornotice">${esc(err.message)}</div>`}};
+$('#saveXmlImport').onclick=async()=>{if(!canManageAcademic())return;if(!pendingXmlItems.length)return toast('Primero seleccione un XML válido.','err');const b=$('#saveXmlImport');b.disabled=true;b.textContent='Importando…';try{const {data,error}=await sb.rpc('admin_importar_cuestionario',{p_nombre:pendingXmlName||'Cuestionario importado',p_items:pendingXmlItems});if(error)throw error;toast(`Cuestionario v${data.version} creado: ${data.secciones} secciones, ${data.preguntas} preguntas.`);pendingXmlItems=[];b.classList.add('hidden');$('#xmlPreview').innerHTML='<div class="notice oknotice">Importación completada.</div>';await Promise.all([loadCatalogs(),loadQuestions()])}catch(e){toast(e.message,'err')}finally{b.disabled=false;b.textContent='Crear nueva versión con este XML'}};
+
+async function loadDashboard(){const camp=$('#fCampaign')?.value||catalogs.campaigns.find(x=>x.estado==='ABIERTA')?.id||catalogs.campaigns[0]?.id||null;const {data,error}=await sb.rpc('admin_dashboard',{p_campana:camp||null,p_docente:null,p_carrera:null,p_nivel:null,p_desde:null,p_hasta:null});if(error)return toast(error.message,'err');$('#kpiResponses').textContent=data.respuestas||0;$('#kpiToday').textContent=data.respuestas_hoy||0;$('#kpiTeachers').textContent=data.docentes||0;$('#kpiSubjects').textContent=data.materias||0;$('#kpiCareers').textContent=data.carreras||0;$('#kpiSatisfaction').textContent=data.satisfaccion_pct!=null?data.satisfaccion_pct+'%':'—';$('#kpiTeacher10').textContent=data.docente_10??'—';$('#kpiLast').textContent=data.ultima_respuesta?new Date(data.ultima_respuesta).toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'}):'—';const sec=data.secciones||[],trend=data.tendencia||[],car=data.por_carrera||[],lev=data.por_nivel||[],rank=data.docentes_ranking||[],dist=data.distribucion_escala||[];chartSet('section','#sectionChart','bar',sec.map(x=>x.seccion),sec.map(x=>x.porcentaje),'Satisfacción %',{scales:{y:{min:0,max:100}}});chartSet('trend','#trendChart','line',trend.map(x=>x.fecha),trend.map(x=>x.respuestas),'Respuestas',{backgroundColor:'rgba(0,206,124,.15)',borderColor:COLORS.oscuro,fill:true});chartSet('career','#careerChart','bar',car.map(x=>x.carrera),car.map(x=>x.respuestas),'Respuestas',{backgroundColor:COLORS.oscuro,legend:false});chartSet('level','#levelChart','doughnut',lev.map(x=>'Nivel '+x.nivel),lev.map(x=>x.respuestas),'Respuestas',{backgroundColor:[COLORS.verde,COLORS.oscuro,COLORS.tomate,'#8bb9b2','#a3d8c4'],borderColor:'#fff'});chartSet('rank','#teacherRankChart','bar',rank.map(x=>x.docente),rank.map(x=>x.satisfaccion_pct),'Satisfacción %',{backgroundColor:COLORS.verde,indexAxis:'y',legend:false,scales:{x:{min:0,max:100}}});chartSet('scale','#scaleChart','bar',dist.map(x=>String(x.valor)),dist.map(x=>x.cantidad),'Respuestas',{backgroundColor:COLORS.tomate,legend:false});let text='';if(data.respuestas===0)text='Aún no existen respuestas para analizar.';else{const top=rank[0];const weak=sec.filter(x=>x.porcentaje!=null).sort((a,b)=>a.porcentaje-b.porcentaje)[0];text=`Se registran <strong>${data.respuestas}</strong> respuestas${data.respuestas_hoy?`, ${data.respuestas_hoy} hoy`:''}. ${top?`Mejor satisfacción docente del ranking actual: <strong>${esc(top.docente)}</strong> (${top.satisfaccion_pct??'—'}%). `:''}${weak?`Componente con menor valoración: <strong>${esc(weak.seccion)}</strong> (${weak.porcentaje??'—'}%).`:''}`}$('#decisionSummary').innerHTML=text}
+
 function reportParams(){return {p_campana:$('#fCampaign').value||null,p_docente:$('#fTeacher').value?Number($('#fTeacher').value):null,p_carrera:$('#fCareer').value?Number($('#fCareer').value):null,p_nivel:$('#fLevel').value||null,p_desde:$('#fFrom').value||null,p_hasta:$('#fTo').value||null}}
-async function runReport(){const {data,error}=await sb.rpc('admin_reporte_resumen',reportParams());if(error)return toast(error.message,'err');reportData=data||[];$('#reportRows').innerHTML=reportData.map(r=>`<tr><td>${esc(r.carrera)}</td><td>${esc(r.nivel)}</td><td>${esc(r.materia)}</td><td>${esc(r.docente)}</td><td>${r.respuestas}</td><td>${r.satisfaccion_pct==null?'—':r.satisfaccion_pct+'%'}</td><td>${r.calificacion_docente_10??'—'}</td></tr>`).join('')||'<tr><td colspan="7" class="muted">Sin resultados para los filtros seleccionados.</td></tr>';const d=await sb.rpc('admin_dashboard',reportParams());if(!d.error){$('#kpiResponses').textContent=d.data.respuestas||0}}
+async function runReport(){const {data,error}=await sb.rpc('admin_reporte_resumen',reportParams());if(error)return toast(error.message,'err');reportData=data||[];$('#reportRows').innerHTML=reportData.map(r=>`<tr><td>${esc(r.carrera)}</td><td>${esc(r.nivel)}</td><td>${esc(r.materia)}</td><td>${esc(r.docente)}</td><td>${r.respuestas}</td><td>${r.satisfaccion_pct==null?'—':r.satisfaccion_pct+'%'}</td><td>${r.calificacion_docente_10??'—'}</td></tr>`).join('')||'<tr><td colspan="7" class="muted">Sin resultados para los filtros seleccionados.</td></tr>'}
 $('#runReport').onclick=runReport;
 function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function reportName(ext){const t=$('#fTeacher').selectedOptions[0]?.textContent||'GLOBAL';return `Encuesta_Satisfaccion_${t.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ]+/g,'_')}_${new Date().toISOString().slice(0,10)}.${ext}`}
-$('#exportCsv').onclick=()=>{const cols=['carrera','nivel','paralelo','jornada','materia','docente','respuestas','satisfaccion_pct','calificacion_docente_10'];const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\ufeff'+cols.join(',')+'\n'+reportData.map(r=>cols.map(c=>q(r[c])).join(',')).join('\n');dl(new Blob([csv],{type:'text/csv;charset=utf-8'}),reportName('csv'))};
+function csvBlob(rows,cols){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return new Blob(['\ufeff'+cols.join(',')+'\n'+rows.map(r=>cols.map(c=>q(r[c])).join(',')).join('\n')],{type:'text/csv;charset=utf-8'})}
+$('#exportCsv').onclick=()=>{const cols=['carrera','nivel','paralelo','jornada','materia','docente','respuestas','satisfaccion_pct','calificacion_docente_10'];dl(csvBlob(reportData,cols),reportName('csv'))};
 $('#exportExcel').onclick=()=>{const ws=XLSX.utils.json_to_sheet(reportData);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Resumen');XLSX.writeFile(wb,reportName('xlsx'))};
-$('#exportHtml').onclick=()=>{const rows=reportData.map(r=>`<tr>${['carrera','nivel','materia','docente','respuestas','satisfaccion_pct','calificacion_docente_10'].map(c=>`<td>${esc(r[c]??'')}</td>`).join('')}</tr>`).join('');const html=`<!doctype html><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:24px;color:#243434}.report-head{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:4px solid #00CE7C;padding-bottom:14px;margin-bottom:18px}.report-head img{max-width:240px;max-height:76px;object-fit:contain}h1{color:#006068;margin:0}table{border-collapse:collapse;width:100%}th{background:#006068;color:white}th,td{padding:8px;border:1px solid #ddd;text-align:left}</style><div class="report-head"><img src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Cordillera"><div><h1>Reporte de Encuesta de Satisfacción</h1><div>Instituto Superior Tecnológico Cordillera</div></div></div><p>Generado ${new Date().toLocaleString('es-EC')}</p><table><thead><tr><th>Carrera</th><th>Nivel</th><th>Materia</th><th>Docente</th><th>Respuestas</th><th>Satisfacción %</th><th>Docente /10</th></tr></thead><tbody>${rows}</tbody></table><script>window.print()<\/script>`;dl(new Blob([html],{type:'text/html;charset=utf-8'}),reportName('html'))};
+$('#exportHtml').onclick=()=>{const rows=reportData.map(r=>`<tr>${['carrera','nivel','materia','docente','respuestas','satisfaccion_pct','calificacion_docente_10'].map(c=>`<td>${esc(r[c]??'')}</td>`).join('')}</tr>`).join('');const html=`<!doctype html><meta charset="utf-8"><title>Reporte</title><style>body{font-family:Arial;padding:24px;color:#243434}.report-head{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:4px solid #00CE7C;padding-bottom:14px;margin-bottom:18px}.report-head img{max-width:240px;max-height:76px;object-fit:contain}h1{color:#006068;margin:0}table{border-collapse:collapse;width:100%}th{background:#006068;color:white}th,td{padding:8px;border:1px solid #ddd;text-align:left}</style><div class="report-head"><img src="https://i.imgur.com/4OsoRcE.png"><div><h1>Reporte de Encuesta de Satisfacción</h1><div>Instituto Superior Tecnológico Cordillera</div></div></div><p>Generado ${new Date().toLocaleString('es-EC')}</p><table><thead><tr><th>Carrera</th><th>Nivel</th><th>Materia</th><th>Docente</th><th>Respuestas</th><th>Satisfacción %</th><th>Docente /10</th></tr></thead><tbody>${rows}</tbody></table><script>window.print()<\/script>`;dl(new Blob([html],{type:'text/html;charset=utf-8'}),reportName('html'))};
+
+async function loadMonitor(){const selected=$('#monitorCampaign').value;const camp=selected===''?null:selected;const {data,error}=await sb.rpc('admin_monitoreo',{p_campana:camp,p_limite:200});if(error)return toast(error.message,'err');monitorData=data||{};monitorRowsData=monitorData.recientes||[];$('#monTotal').textContent=monitorData.total||0;$('#monToday').textContent=monitorData.hoy||0;$('#monHour').textContent=monitorData.ultima_hora||0;$('#mon10').textContent=monitorData.ultimos_10_min||0;$('#monLast').textContent='Última respuesta: '+(monitorData.ultima_respuesta?fmtDate(monitorData.ultima_respuesta):'—');$('#monitorRows').innerHTML=monitorRowsData.map(r=>`<tr><td>${fmtDate(r.fecha)}</td><td>${esc(r.carrera)}</td><td>${esc(r.nivel)}</td><td>${esc(r.materia)}</td><td>${esc(r.docente)}</td><td>${r.satisfaccion_pct==null?'—':r.satisfaccion_pct+'%'}</td><td>${r.calificacion_docente_10??'—'}</td></tr>`).join('')||'<tr><td colspan="7" class="muted">Aún no existen respuestas.</td></tr>';const car=monitorData.por_carrera||[],lev=monitorData.por_nivel||[];chartSet('monitorCareer','#monitorCareerChart','bar',car.map(x=>x.carrera),car.map(x=>x.respuestas),'Respuestas',{backgroundColor:COLORS.oscuro,legend:false});chartSet('monitorLevel','#monitorLevelChart','doughnut',lev.map(x=>'Nivel '+x.nivel),lev.map(x=>x.respuestas),'Respuestas',{backgroundColor:[COLORS.verde,COLORS.oscuro,COLORS.tomate,'#8bb9b2','#a3d8c4'],borderColor:'#fff'})}
+$('#refreshMonitor').onclick=loadMonitor;$('#monitorCampaign').onchange=loadMonitor;
+function startRealtimeMonitor(){if(realtimeChannel)return;realtimeChannel=sb.channel('encuesta-live').on('postgres_changes',{event:'INSERT',schema:'public',table:'respuestas'},async()=>{if(!$('#panel-monitor').classList.contains('hidden'))await loadMonitor();if(!$('#panel-dashboard').classList.contains('hidden'))await loadDashboard()}).subscribe(status=>{const ok=status==='SUBSCRIBED';$('#liveBadge').classList.toggle('connected',ok);$('#liveBadge').classList.toggle('error',status==='CHANNEL_ERROR'||status==='TIMED_OUT');$('#liveText').textContent=ok?'En vivo':status==='CHANNEL_ERROR'?'Error de conexión':status==='TIMED_OUT'?'Tiempo agotado':'Conectando…'})}
+function monitorName(ext){return `Monitoreo_Encuesta_${new Date().toISOString().slice(0,10)}.${ext}`}
+$('#monExportCsv').onclick=()=>{const cols=['fecha','carrera','nivel','materia','docente','satisfaccion_pct','calificacion_docente_10'];dl(csvBlob(monitorRowsData,cols),monitorName('csv'))};
+$('#monExportExcel').onclick=()=>{const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(monitorRowsData),'Respuestas recientes');XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet([{total:monitorData?.total||0,hoy:monitorData?.hoy||0,ultima_hora:monitorData?.ultima_hora||0,ultimos_10_min:monitorData?.ultimos_10_min||0,ultima_respuesta:monitorData?.ultima_respuesta||''}]),'KPIs');XLSX.writeFile(wb,monitorName('xlsx'))};
+$('#monExportHtml').onclick=()=>{const rows=monitorRowsData.map(r=>`<tr><td>${fmtDate(r.fecha)}</td><td>${esc(r.carrera)}</td><td>${esc(r.nivel)}</td><td>${esc(r.materia)}</td><td>${esc(r.docente)}</td><td>${r.satisfaccion_pct??''}</td><td>${r.calificacion_docente_10??''}</td></tr>`).join('');const html=`<!doctype html><meta charset="utf-8"><title>Monitoreo</title><style>body{font-family:Arial;padding:24px;color:#243434}h1{color:#006068}img{max-width:240px}table{border-collapse:collapse;width:100%}th{background:#006068;color:#fff}th,td{border:1px solid #ddd;padding:7px}</style><img src="https://i.imgur.com/4OsoRcE.png"><h1>Monitoreo de Encuesta de Satisfacción</h1><p>Total: ${monitorData?.total||0} · Hoy: ${monitorData?.hoy||0} · Última hora: ${monitorData?.ultima_hora||0}</p><table><thead><tr><th>Fecha</th><th>Carrera</th><th>Nivel</th><th>Materia</th><th>Docente</th><th>Satisfacción %</th><th>Docente /10</th></tr></thead><tbody>${rows}</tbody></table><script>window.print()<\/script>`;dl(new Blob([html],{type:'text/html;charset=utf-8'}),monitorName('html'))};
+
+async function loadPeople(){const {data,error}=await sb.from('personal_encuesta').select('*').order('tipo').order('orden').order('nombre');if(error)return toast(error.message,'err');peopleCache=data||[];$('#peopleRows').innerHTML=peopleCache.map(p=>`<tr><td>${p.foto_url?`<img class="avatar" src="${esc(p.foto_url)}" alt="${esc(p.nombre)}">`:`<span class="avatar-fallback">${esc(initials(p.nombre))}</span>`}</td><td><span class="tag">${p.tipo}</span></td><td><strong>${esc(p.nombre)}</strong></td><td>${p.orden}</td><td><span class="tag ${p.activo?'':'orange'}">${p.activo?'ACTIVO':'INACTIVO'}</span></td><td>${canManageAcademic()?`<button class="btn btn-light btn-sm" onclick="editPerson(${p.id})">Editar</button>`:'<span class="muted">Solo lectura</span>'}</td></tr>`).join('')||'<tr><td colspan="6" class="muted">Sin personal configurado.</td></tr>'}
+$('#newPersonBtn').onclick=()=>{if(!canManageAcademic())return;$('#personId').value='';$('#personType').value='TUTOR';$('#personOrder').value='1';$('#personName').value='';$('#personActive').value='true';$('#personPhotoUrl').value='';$('#personPhotoFile').value='';$('#personPreview').classList.add('hidden');$('#personModalTitle').textContent='Agregar tutor / asesor';modal('personModal',true)};
+window.editPerson=id=>{const p=peopleCache.find(x=>x.id===id);if(!p)return;$('#personId').value=p.id;$('#personType').value=p.tipo;$('#personOrder').value=p.orden;$('#personName').value=p.nombre;$('#personActive').value=String(p.activo);$('#personPhotoUrl').value=p.foto_url||'';$('#personPhotoFile').value='';$('#personPreview').src=p.foto_url||'';$('#personPreview').classList.toggle('hidden',!p.foto_url);$('#personModalTitle').textContent='Editar '+(p.tipo==='TUTOR'?'tutor/a':'asesor');modal('personModal',true)};
+$('#personPhotoUrl').oninput=()=>{const v=$('#personPhotoUrl').value.trim();$('#personPreview').src=v;$('#personPreview').classList.toggle('hidden',!v)};
+$('#personPhotoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;$('#personPreview').src=URL.createObjectURL(f);$('#personPreview').classList.remove('hidden')};
+async function uploadPersonPhoto(file,tipo,nombre){const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');const safe=normPersonName(nombre).replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'personal';const filePath=`${tipo.toLowerCase()}/${Date.now()}_${safe}.${ext}`;const {error}=await sb.storage.from('personal-encuesta').upload(filePath,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(error)throw error;return sb.storage.from('personal-encuesta').getPublicUrl(filePath).data.publicUrl}
+$('#savePerson').onclick=async()=>{if(!canManageAcademic())return toast('Sin permiso.','err');const b=$('#savePerson');b.disabled=true;try{const id=$('#personId').value?Number($('#personId').value):null,tipo=$('#personType').value,nombre=$('#personName').value.trim(),activo=$('#personActive').value==='true',orden=Number($('#personOrder').value)||1;if(!nombre)throw new Error('Ingrese el nombre.');let foto=$('#personPhotoUrl').value.trim();const file=$('#personPhotoFile').files[0];if(file)foto=await uploadPersonPhoto(file,tipo,nombre);const {error}=await sb.rpc('admin_guardar_personal',{p_id:id,p_tipo:tipo,p_nombre:nombre,p_foto_url:foto||null,p_activo:activo,p_orden:orden});if(error)throw error;modal('personModal',false);toast('Personal actualizado');await loadPeople()}catch(e){toast(e.message,'err')}finally{b.disabled=false}};
+
+async function loadUsers(){if(!isSuperAdmin())return;const [u,i]=await Promise.all([sb.from('perfiles_admin').select('*').order('nombre'),sb.from('invitaciones_admin').select('*').is('usado_at',null).order('created_at',{ascending:false})]);if(u.error)return toast(u.error.message,'err');usersCache=u.data||[];invitesCache=(i.data||[]).filter(x=>new Date(x.expira_at)>new Date());$('#userRows').innerHTML=usersCache.map(x=>`<tr><td><strong>${esc(x.nombre)}</strong></td><td>${esc(x.email||'—')}</td><td><span class="${roleClass(x.rol)}">${esc(x.rol)}</span></td><td><span class="tag ${x.activo?'':'orange'}">${x.activo?'ACTIVO':'INACTIVO'}</span></td><td>${fmtDate(x.created_at)}</td><td><button class="btn btn-light btn-sm" onclick="editUser('${x.user_id}')">Editar</button></td></tr>`).join('');$('#inviteRows').innerHTML=invitesCache.map(x=>`<tr><td>${esc(x.email)}</td><td>${esc(x.nombre)}</td><td><span class="role-chip">${esc(x.rol)}</span></td><td>${fmtDate(x.expira_at)}</td><td><button class="btn btn-danger btn-sm" onclick="revokeInvite('${x.id}')">Revocar</button></td></tr>`).join('')||'<tr><td colspan="5" class="muted">No hay invitaciones pendientes.</td></tr>'}
+$('#newUserBtn').onclick=()=>{if(!isSuperAdmin())return;$('#newUserName').value='';$('#newUserEmail').value='';$('#newUserRole').value='ADMIN_ACADEMICO';$('#inviteLinkResult').innerHTML='';modal('inviteUserModal',true)};
+$('#createInvite').onclick=async()=>{if(!isSuperAdmin())return;const b=$('#createInvite');b.disabled=true;try{const {data,error}=await sb.rpc('admin_crear_invitacion',{p_email:$('#newUserEmail').value.trim(),p_nombre:$('#newUserName').value.trim(),p_rol:$('#newUserRole').value});if(error)throw error;const url=new URL(location.origin+location.pathname);url.searchParams.set('admin','1');url.searchParams.set('invite',data.token);$('#inviteLinkResult').innerHTML=`<div class="invite-result"><strong>Enlace generado:</strong><br><span id="generatedInviteLink">${esc(url.toString())}</span><br><button class="btn btn-light btn-sm" id="copyGeneratedInvite" style="margin-top:8px">Copiar enlace</button><div class="muted" style="margin-top:6px">Vence: ${fmtDate(data.expira_at)}</div></div>`;$('#copyGeneratedInvite').onclick=async()=>{await navigator.clipboard.writeText(url.toString());toast('Enlace copiado')};await loadUsers()}catch(e){toast(e.message,'err')}finally{b.disabled=false}};
+window.editUser=id=>{const u=usersCache.find(x=>x.user_id===id);if(!u)return;$('#editUserId').value=u.user_id;$('#editUserName').value=u.nombre;$('#editUserRole').value=u.rol;$('#editUserActive').value=String(u.activo);modal('editUserModal',true)};
+$('#saveUser').onclick=async()=>{if(!isSuperAdmin())return;const {error}=await sb.rpc('admin_actualizar_usuario',{p_user:$('#editUserId').value,p_nombre:$('#editUserName').value.trim(),p_rol:$('#editUserRole').value,p_activo:$('#editUserActive').value==='true'});if(error)return toast(error.message,'err');modal('editUserModal',false);toast('Usuario actualizado');await loadUsers()};
+window.revokeInvite=async id=>{if(!isSuperAdmin())return;const {error}=await sb.rpc('admin_revocar_invitacion',{p_id:id});if(error)return toast(error.message,'err');toast('Invitación revocada');await loadUsers()};
+
 function downloadSql(){dl(new Blob([$('#sqlInstaller').textContent],{type:'text/plain;charset=utf-8'}),'supabase.sql')}
 $('#downloadSql')&&($('#downloadSql').onclick=downloadSql);$('#copySql')&&($('#copySql').onclick=async()=>{await navigator.clipboard.writeText($('#sqlInstaller').textContent);toast('SQL copiado')});
-
 const isAdmin=new URLSearchParams(location.search).get('admin')==='1';
 if(isAdmin)initAdmin();else initPublic();
 </script>
