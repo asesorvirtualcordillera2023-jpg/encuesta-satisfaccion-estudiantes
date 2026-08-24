@@ -1028,6 +1028,55 @@ begin
   return jsonb_build_object('ok',true,'habilitados',v_count);
 end; $$;
 
+
+
+create or replace function public.admin_eliminar_usuario(p_user uuid)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare cur public.perfiles_admin%rowtype; others int; v_email text;
+begin
+  if not private.es_superadmin() then raise exception 'Solo SUPERADMIN puede eliminar usuarios'; end if;
+  if p_user is null then raise exception 'Usuario inválido'; end if;
+  if p_user=(select auth.uid()) then raise exception 'No puede eliminar su propio usuario'; end if;
+
+  select * into cur from public.perfiles_admin where user_id=p_user;
+  if cur.user_id is null then raise exception 'Usuario no encontrado'; end if;
+
+  if cur.rol='SUPERADMIN' then
+    select count(*) into others
+    from public.perfiles_admin
+    where activo and rol='SUPERADMIN' and user_id<>p_user;
+    if others=0 then raise exception 'Debe existir al menos un SUPERADMIN activo'; end if;
+  end if;
+
+  v_email:=lower(coalesce(cur.email,''));
+
+  -- Cierra invitaciones pendientes del mismo correo para evitar enlaces reutilizables.
+  if v_email<>'' then
+    update public.invitaciones_admin
+    set usado_at=coalesce(usado_at,now())
+    where lower(email)=v_email and usado_at is null;
+  end if;
+
+  -- Auditoría explícita antes del borrado. Los permisos se eliminan por ON DELETE CASCADE.
+  insert into public.auditoria(user_id,accion,modulo,detalle)
+  values((select auth.uid()),'DELETE_USER','usuarios',jsonb_build_object(
+    'usuario_id',cur.user_id,
+    'nombre',cur.nombre,
+    'email',cur.email,
+    'rol',cur.rol
+  ));
+
+  delete from public.perfiles_admin where user_id=p_user;
+
+  return jsonb_build_object(
+    'ok',true,
+    'user_id',p_user,
+    'nombre',cur.nombre,
+    'email',cur.email,
+    'auth_identity_retained',true
+  );
+end; $$;
+
 create or replace function public.admin_revocar_invitacion(p_id uuid)
 returns jsonb language plpgsql security definer set search_path = '' as $$
 begin
@@ -1850,6 +1899,7 @@ revoke execute on function public.admin_crear_invitacion(text,text,text,text[]) 
 revoke execute on function public.aceptar_invitacion(text) from public; grant execute on function public.aceptar_invitacion(text) to authenticated;
 revoke execute on function public.admin_actualizar_usuario(uuid,text,text,boolean) from public; grant execute on function public.admin_actualizar_usuario(uuid,text,text,boolean) to authenticated;
 revoke execute on function public.admin_guardar_permisos_usuario(uuid,text[]) from public; grant execute on function public.admin_guardar_permisos_usuario(uuid,text[]) to authenticated;
+revoke execute on function public.admin_eliminar_usuario(uuid) from public; grant execute on function public.admin_eliminar_usuario(uuid) to authenticated;
 revoke execute on function public.admin_revocar_invitacion(uuid) from public; grant execute on function public.admin_revocar_invitacion(uuid) to authenticated;
 revoke execute on function public.admin_guardar_personal(bigint,text,text,text,boolean,integer) from public; grant execute on function public.admin_guardar_personal(bigint,text,text,text,boolean,integer) to authenticated;
 revoke execute on function public.admin_monitoreo(uuid,integer) from public; grant execute on function public.admin_monitoreo(uuid,integer) to authenticated;
@@ -1858,7 +1908,6 @@ revoke execute on function public.admin_resetear_campana(uuid) from public; gran
 
 -- IMPORTANTE: cree el primer usuario en Authentication > Users y luego ejecute:
 -- insert into public.perfiles_admin(user_id,nombre,email,rol) values('UUID-DEL-USUARIO','Administrador','correo@institucion.edu.ec','SUPERADMIN');
-
 </script>
 <script>
 const CONFIG={supabaseUrl:'https://pyvudqszqjpbhessgjzz.supabase.co',supabaseAnonKey:'sb_publishable_eHhXCKgoyB_Swjxix2jCpA_WDU18aQn',institution:'Instituto Superior Tecnológico Cordillera'};
@@ -2034,7 +2083,7 @@ $('#personPhotoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;$('#pe
 async function uploadPersonPhoto(file,tipo,nombre){const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');const safe=normPersonName(nombre).replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'personal';const filePath=`${tipo.toLowerCase()}/${Date.now()}_${safe}.${ext}`;const {error}=await sb.storage.from('personal-encuesta').upload(filePath,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(error)throw error;return sb.storage.from('personal-encuesta').getPublicUrl(filePath).data.publicUrl}
 $('#savePerson').onclick=async()=>{if(!canAccess('people'))return toast('Sin permiso para Tutores y asesores.','err');const b=$('#savePerson');b.disabled=true;try{const id=$('#personId').value?Number($('#personId').value):null,tipo=$('#personType').value,nombre=$('#personName').value.trim(),activo=$('#personActive').value==='true',orden=Number($('#personOrder').value)||1;if(!nombre)throw new Error('Ingrese el nombre.');let foto=$('#personPhotoUrl').value.trim();const file=$('#personPhotoFile').files[0];if(file)foto=await uploadPersonPhoto(file,tipo,nombre);const {error}=await sb.rpc('admin_guardar_personal',{p_id:id,p_tipo:tipo,p_nombre:nombre,p_foto_url:foto||null,p_activo:activo,p_orden:orden});if(error)throw error;modal('personModal',false);toast('Personal actualizado');await loadPeople()}catch(e){toast(e.message,'err')}finally{b.disabled=false}};
 
-async function loadUsers(){if(!canAccess('users'))return;const [u,i,p]=await Promise.all([sb.from('perfiles_admin').select('*').order('nombre'),sb.from('invitaciones_admin').select('*').is('usado_at',null).order('created_at',{ascending:false}),sb.from('permisos_modulo_usuario').select('user_id,modulo_codigo,permitido')]);if(u.error)return toast(u.error.message,'err');usersCache=u.data||[];invitesCache=(i.data||[]).filter(x=>new Date(x.expira_at)>new Date());userPermsCache={};(p.data||[]).forEach(x=>{(userPermsCache[x.user_id]??=[]);if(x.permitido)userPermsCache[x.user_id].push(x.modulo_codigo)});$('#userRows').innerHTML=usersCache.map(x=>{const mods=x.rol==='SUPERADMIN'?MODULES.map(m=>m.codigo):(userPermsCache[x.user_id]||[]).filter(m=>m!=='users');const pills=MODULES.filter(m=>mods.includes(m.codigo)).map(m=>`<span class="perm-pill">${esc(m.nombre)}</span>`).join('')||'<span class="muted">Sin módulos</span>';return `<tr><td><strong>${esc(x.nombre)}</strong></td><td>${esc(x.email||'—')}</td><td><span class="${roleClass(x.rol)}">${esc(x.rol)}</span></td><td><div class="perm-summary">${pills}</div><div class="muted" style="margin-top:4px">${mods.length}/${MODULES.length} habilitados</div></td><td><span class="tag ${x.activo?'':'orange'}">${x.activo?'ACTIVO':'INACTIVO'}</span></td><td>${fmtDate(x.created_at)}</td><td><button class="btn btn-light btn-sm" onclick="editUser('${x.user_id}')">Editar permisos</button></td></tr>`}).join('');$('#inviteRows').innerHTML=invitesCache.map(x=>{const mods=x.rol==='SUPERADMIN'?MODULES.map(m=>m.codigo):(x.modulos||[]).filter(m=>m!=='users');return `<tr><td>${esc(x.email)}</td><td>${esc(x.nombre)}</td><td><span class="role-chip">${esc(x.rol)}</span></td><td>${mods.length}/${MODULES.length}</td><td>${fmtDate(x.expira_at)}</td><td><button class="btn btn-danger btn-sm" onclick="revokeInvite('${x.id}')">Revocar</button></td></tr>`}).join('')||'<tr><td colspan="6" class="muted">No hay invitaciones pendientes.</td></tr>'}
+async function loadUsers(){if(!canAccess('users'))return;const [u,i,p]=await Promise.all([sb.from('perfiles_admin').select('*').order('nombre'),sb.from('invitaciones_admin').select('*').is('usado_at',null).order('created_at',{ascending:false}),sb.from('permisos_modulo_usuario').select('user_id,modulo_codigo,permitido')]);if(u.error)return toast(u.error.message,'err');usersCache=u.data||[];invitesCache=(i.data||[]).filter(x=>new Date(x.expira_at)>new Date());userPermsCache={};(p.data||[]).forEach(x=>{(userPermsCache[x.user_id]??=[]);if(x.permitido)userPermsCache[x.user_id].push(x.modulo_codigo)});$('#userRows').innerHTML=usersCache.map(x=>{const mods=x.rol==='SUPERADMIN'?MODULES.map(m=>m.codigo):(userPermsCache[x.user_id]||[]).filter(m=>m!=='users');const pills=MODULES.filter(m=>mods.includes(m.codigo)).map(m=>`<span class="perm-pill">${esc(m.nombre)}</span>`).join('')||'<span class="muted">Sin módulos</span>';const self=x.user_id===adminProfile?.user_id;return `<tr><td><strong>${esc(x.nombre)}</strong>${self?' <span class="tag">TU CUENTA</span>':''}</td><td>${esc(x.email||'—')}</td><td><span class="${roleClass(x.rol)}">${esc(x.rol)}</span></td><td><div class="perm-summary">${pills}</div><div class="muted" style="margin-top:4px">${mods.length}/${MODULES.length} habilitados</div></td><td><span class="tag ${x.activo?'':'orange'}">${x.activo?'ACTIVO':'INACTIVO'}</span></td><td>${fmtDate(x.created_at)}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-light btn-sm" onclick="editUser('${x.user_id}')">Editar permisos</button>${self?'<button class="btn btn-light btn-sm" disabled title="No puedes eliminar tu propia cuenta">Eliminar</button>':`<button class="btn btn-danger btn-sm" onclick="deleteUser('${x.user_id}')">Eliminar</button>`}</div></td></tr>`}).join('');$('#inviteRows').innerHTML=invitesCache.map(x=>{const mods=x.rol==='SUPERADMIN'?MODULES.map(m=>m.codigo):(x.modulos||[]).filter(m=>m!=='users');return `<tr><td>${esc(x.email)}</td><td>${esc(x.nombre)}</td><td><span class="role-chip">${esc(x.rol)}</span></td><td>${mods.length}/${MODULES.length}</td><td>${fmtDate(x.expira_at)}</td><td><button class="btn btn-danger btn-sm" onclick="revokeInvite('${x.id}')">Revocar</button></td></tr>`}).join('')||'<tr><td colspan="6" class="muted">No hay invitaciones pendientes.</td></tr>'}
 function syncInviteModules(forceRole=false){const role=$('#newUserRole').value;const locked=role==='SUPERADMIN';if(locked||forceRole)setModuleChecks('#inviteUserModules',roleModules(role),locked,role)}
 $('#newUserBtn').onclick=()=>{if(!canAccess('users'))return;$('#newUserName').value='';$('#newUserEmail').value='';$('#newUserRole').value='ADMIN_ACADEMICO';$('#inviteLinkResult').innerHTML='';syncInviteModules(true);modal('inviteUserModal',true)};
 $('#newUserRole').onchange=()=>syncInviteModules(true);$('#inviteModulesDefault').onclick=()=>syncInviteModules(true);$('#inviteModulesAll').onclick=()=>setModuleChecks('#inviteUserModules',MODULES.map(x=>x.codigo),$('#newUserRole').value==='SUPERADMIN',$('#newUserRole').value);$('#inviteModulesNone').onclick=()=>setModuleChecks('#inviteUserModules',[],$('#newUserRole').value==='SUPERADMIN',$('#newUserRole').value);
@@ -2044,6 +2093,7 @@ window.editUser=id=>{const u=usersCache.find(x=>x.user_id===id);if(!u)return;$('
 $('#editUserRole').onchange=()=>{const role=$('#editUserRole').value;if(role==='SUPERADMIN')setModuleChecks('#editUserModules',MODULES.map(x=>x.codigo),true,role);else setModuleChecks('#editUserModules',roleModules(role),false,role);$('#superAdminModuleNote').classList.toggle('hidden',role!=='SUPERADMIN')};
 $('#editModulesAll').onclick=()=>setModuleChecks('#editUserModules',MODULES.map(x=>x.codigo),$('#editUserRole').value==='SUPERADMIN',$('#editUserRole').value);$('#editModulesNone').onclick=()=>setModuleChecks('#editUserModules',[],$('#editUserRole').value==='SUPERADMIN',$('#editUserRole').value);$('#editModulesRole').onclick=()=>setModuleChecks('#editUserModules',roleModules($('#editUserRole').value),$('#editUserRole').value==='SUPERADMIN',$('#editUserRole').value);
 $('#saveUser').onclick=async()=>{if(!canAccess('users'))return;const b=$('#saveUser');b.disabled=true;try{const user=$('#editUserId').value,role=$('#editUserRole').value,mods=role==='SUPERADMIN'?MODULES.map(x=>x.codigo):checkedModules('#editUserModules').filter(x=>x!=='users');const r1=await sb.rpc('admin_actualizar_usuario',{p_user:user,p_nombre:$('#editUserName').value.trim(),p_rol:role,p_activo:$('#editUserActive').value==='true'});if(r1.error)throw r1.error;const r2=await sb.rpc('admin_guardar_permisos_usuario',{p_user:user,p_modulos:mods});if(r2.error)throw r2.error;modal('editUserModal',false);toast(`Usuario actualizado · ${r2.data?.habilitados??mods.length} módulos habilitados`);await loadUsers()}catch(e){toast(e.message,'err')}finally{b.disabled=false}};
+window.deleteUser=async id=>{if(!isSuperAdmin())return toast('Solo SUPERADMIN puede eliminar usuarios.','err');const u=usersCache.find(x=>x.user_id===id);if(!u)return toast('Usuario no encontrado.','err');if(id===adminProfile?.user_id)return toast('No puedes eliminar tu propia cuenta.','err');const typed=prompt(`Vas a eliminar el acceso administrativo de:\n\n${u.nombre}\n${u.email||''}\nRol: ${u.rol}\n\nSus permisos se eliminarán y no podrá ingresar al panel.\nEscribe ELIMINAR para confirmar:`);if(typed!=='ELIMINAR')return;const {data,error}=await sb.rpc('admin_eliminar_usuario',{p_user:id});if(error)return toast(error.message,'err');toast(`Usuario ${data?.nombre||u.nombre} eliminado del sistema`);await loadUsers()};
 window.revokeInvite=async id=>{if(!canAccess('users'))return;const {error}=await sb.rpc('admin_revocar_invitacion',{p_id:id});if(error)return toast(error.message,'err');toast('Invitación revocada');await loadUsers()};
 
 function downloadSql(){dl(new Blob([$('#sqlInstaller').textContent],{type:'text/plain;charset=utf-8'}),'supabase.sql')}
