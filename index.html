@@ -43,7 +43,7 @@
 <body>
 <header class="topbar">
   <div class="brand"><div class="brand-logo-box"><img class="brand-logo" src="https://i.imgur.com/4OsoRcE.png" alt="Instituto Superior Tecnológico Cordillera" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=&quot;brand-fallback&quot;>CORDILLERA</span>'"></div><span>Encuesta de Satisfacción<small>Instituto Cordillera</small></span></div>
-  <div class="top-actions"><button class="btn btn-ghost btn-sm hide-mobile" id="btnPolicy">🔐 Privacidad</button><a class="btn btn-ghost btn-sm" id="modeLink" href="?admin=1">⚙️ Administración</a></div>
+  <div class="top-actions"><a class="btn btn-ghost btn-sm" id="modeLink" href="?admin=1">⚙️ Administración</a></div>
 </header>
 
 <main id="publicApp" class="container">
@@ -1832,7 +1832,7 @@ $$('[data-close]').forEach(b=>b.onclick=()=>modal(b.dataset.close,false));
 function textToHtml(txt){return esc(txt||'').replace(/\n/g,'<br>')}
 function setProgress(label,p){$('#progressLabel').textContent=label;$('#progressPct').textContent=Math.round(p)+'%';$('#progressBar').style.width=Math.max(0,Math.min(100,p))+'%'}
 function showPolicy(){const p=survey?.politica?.contenido||document.querySelector('#securityPolicyText')?.textContent||'La política estará disponible cuando Supabase esté configurado.';$('#policyBody').textContent=p;modal('policyModal',true)}
-$('#btnPolicy').onclick=showPolicy;$('#inlinePolicy').onclick=showPolicy;
+$('#inlinePolicy').onclick=showPolicy;
 
 async function initPublic(){
   $('#modeLink').href='?admin=1';
