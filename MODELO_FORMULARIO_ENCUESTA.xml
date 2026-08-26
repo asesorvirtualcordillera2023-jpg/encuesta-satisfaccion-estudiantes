@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FEEDBACK VERSION="200701" COMMENT="Modelo compatible con Moodle Feedback y Motor Institucional de Encuestas">
   <ITEMS>
+    <!-- Esta pregunta no tiene label/sección. El motor pedirá asignarla antes de importar. -->
+    <ITEM TYPE="multichoice" REQUIRED="0">
+      <ITEMID><![CDATA[PREGUNTA_SIN_SECCION]]></ITEMID>
+      <ITEMTEXT><![CDATA[Pregunta para asignar manualmente a una sección]]></ITEMTEXT>
+      <ITEMLABEL><![CDATA[]]></ITEMLABEL>
+      <PRESENTATION><![CDATA[r>>>>>1 Totalmente en desacuerdo|2 En desacuerdo|3 Neutral|4 De acuerdo|5 Totalmente de acuerdo]]></PRESENTATION>
+    </ITEM>
+
     <ITEM TYPE="label" REQUIRED="0">
       <ITEMID><![CDATA[SERVICIO]]></ITEMID>
       <ITEMTEXT><![CDATA[label]]></ITEMTEXT>
