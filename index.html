@@ -125,6 +125,246 @@ html.landing-route body{background:#003f35;overflow-x:hidden}html.landing-route 
 @media(max-width:1180px){.base-admin-layout{grid-template-columns:1fr}}
 @media(max-width:980px){.base-manager-grid,.base-usage-guide{grid-template-columns:1fr}.base-record-editor{grid-template-columns:1fr}}
 
+
+/* V3.12 - Identidad visual institucional renovada */
+:root{
+  --verde-menta:#CFF8E5;
+  --verde-suave:#EAFBF3;
+  --verde-intermedio:#18B99C;
+  --turquesa:#028B98;
+  --turquesa-profundo:#00727B;
+  --tomate-suave:#F6B180;
+  --tomate-palido:#FFF1E7;
+  --gris-claro:#F4F7F7;
+  --gris-medio:#8B9998;
+  --panel:#FBFEFD;
+  --sombra-ui:0 12px 30px rgba(0,96,104,.09);
+}
+
+/* Cabecera: más clara, institucional y con contraste */
+.topbar{
+  position:sticky;
+  overflow:hidden;
+  background:
+    linear-gradient(112deg,#FFFFFF 0%,#FFFFFF 20%,#EFFFF7 43%,#B9F4D9 62%,#39D99B 80%,#00CE7C 100%);
+  color:var(--oscuro);
+  border-bottom:0;
+  box-shadow:0 8px 26px rgba(0,96,104,.13);
+}
+.topbar:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(118deg,transparent 0 58%,rgba(255,255,255,.25) 58% 61%,transparent 61% 100%),
+    radial-gradient(circle at 76% -80%,rgba(255,255,255,.75),transparent 30%);
+}
+.topbar:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(90deg,var(--tomate) 0 22%,#F2A06D 22% 36%,var(--verde) 36% 68%,var(--turquesa) 68% 100%);
+}
+.topbar .brand,.topbar .top-actions{position:relative;z-index:2}
+.topbar .brand-logo-box{
+  border:1px solid rgba(0,96,104,.10);
+  box-shadow:0 8px 22px rgba(0,96,104,.13);
+}
+.topbar .brand{color:#00585E}.topbar .brand small{color:#397275;opacity:1}
+.topbar .btn-ghost{
+  background:#FFFFFF;
+  color:#006068;
+  border:1px solid rgba(0,96,104,.14);
+  box-shadow:0 5px 16px rgba(0,96,104,.11);
+}
+.topbar .btn-ghost:hover{background:var(--tomate);color:#fff;border-color:var(--tomate);box-shadow:0 8px 20px rgba(228,126,61,.25)}
+
+/* Fondo administrativo */
+.admin-shell{
+  background:
+    radial-gradient(circle at 96% 4%,rgba(0,206,124,.09),transparent 23%),
+    radial-gradient(circle at 12% 95%,rgba(228,126,61,.07),transparent 25%),
+    linear-gradient(135deg,#F8FFFC 0%,#F3FAF8 55%,#FFF9F4 100%);
+}
+.admin-main{background:transparent}
+.admin-title h2{color:#005C63;letter-spacing:-.25px}
+.admin-title .tag{background:#E8FFF5;border:1px solid #C2EEDB;color:#005F64;box-shadow:0 4px 12px rgba(0,96,104,.05)}
+.card{border-color:#D9EAE5;box-shadow:var(--sombra-ui)}
+
+/* Menú lateral: limpio pero con codificación de color por grupo */
+.sidebar{
+  background:
+    linear-gradient(180deg,#F8FFFB 0%,#EEFBF5 44%,#FFF8F2 76%,#F7F8F8 100%);
+  border-right:1px solid #CFE7DF;
+  box-shadow:9px 0 28px rgba(0,96,104,.10);
+  scrollbar-color:#8DDDBB #EEF7F4;
+}
+.sidebar-brand{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#FFFFFF 0%,#F4FFF9 100%);
+  border:1px solid #CDE9DF;
+  box-shadow:0 10px 24px rgba(0,96,104,.10);
+}
+.sidebar-brand:after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(90deg,var(--tomate),var(--verde),var(--turquesa));
+}
+.sidebar-brand strong{color:#005E64}
+
+.side-title{
+  color:#006068;
+  background:linear-gradient(90deg,#DFFBED 0%,#F8FFFB 100%);
+  border:1px solid #D7EEE6;
+  border-left:5px solid var(--verde);
+  box-shadow:0 4px 12px rgba(0,206,124,.07);
+}
+.side-title.engine{
+  color:#91451A;
+  border-left-color:var(--tomate);
+  background:linear-gradient(90deg,#FFE9DA 0%,#FFF8F2 100%);
+  border-top-color:#F8DDC9;border-right-color:#F8DDC9;border-bottom-color:#F8DDC9;
+}
+.side-title.management{
+  color:#006B72;
+  border-left-color:var(--turquesa);
+  background:linear-gradient(90deg,#DDF6F6 0%,#F8FFFF 100%);
+  border-top-color:#D8EEEE;border-right-color:#D8EEEE;border-bottom-color:#D8EEEE;
+}
+.side-title.integrations{
+  color:#006A6F;
+  border-left-color:#19A8B0;
+  background:linear-gradient(90deg,#DDF8F2 0%,#E9FBFF 100%);
+  border-top-color:#D1ECEA;border-right-color:#D1ECEA;border-bottom-color:#D1ECEA;
+}
+.side-title.system{
+  color:#555F5F;
+  border-left-color:#7C8988;
+  background:linear-gradient(90deg,#ECEFEF 0%,#FAFBFB 100%);
+  border-top-color:#E0E4E4;border-right-color:#E0E4E4;border-bottom-color:#E0E4E4;
+}
+
+.navbtn{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.90);
+  color:#075E63;
+  border:1px solid #E2EFEB;
+  border-left:5px solid #A5DCC7;
+  box-shadow:0 4px 12px rgba(0,96,104,.045);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease;
+}
+.navbtn:after{
+  content:"";
+  position:absolute;right:-22px;top:-24px;width:62px;height:62px;border-radius:50%;
+  background:rgba(0,206,124,.06);transition:.18s ease;
+}
+.navbtn:hover{transform:translateX(3px);box-shadow:0 8px 18px rgba(0,96,104,.10)}
+.navbtn:hover:after{transform:scale(1.18);background:rgba(0,206,124,.11)}
+
+/* Análisis */
+.navbtn[data-panel="dashboard"],.navbtn[data-panel="monitor"],.navbtn[data-panel="records"],.navbtn[data-panel="reports"]{border-left-color:#43CDA0}
+.navbtn[data-panel="dashboard"]:hover,.navbtn[data-panel="monitor"]:hover,.navbtn[data-panel="records"]:hover,.navbtn[data-panel="reports"]:hover{background:linear-gradient(90deg,#E5FFF3,#F8FFFC);color:#005B61;border-left-color:var(--verde)}
+.navbtn[data-panel="dashboard"].active,.navbtn[data-panel="monitor"].active,.navbtn[data-panel="records"].active,.navbtn[data-panel="reports"].active{
+  background:linear-gradient(105deg,#008D8F 0%,#00B78F 48%,#00CE7C 100%);
+  color:#fff;border-color:#34D6A1;border-left-color:var(--tomate);
+  box-shadow:0 10px 22px rgba(0,151,132,.23);
+}
+
+/* Motor de encuestas */
+.navbtn[data-panel="forms"],.navbtn[data-panel="bases"],.navbtn[data-panel="weights"]{border-left-color:#F0A06D}
+.navbtn[data-panel="forms"]:hover,.navbtn[data-panel="bases"]:hover,.navbtn[data-panel="weights"]:hover{background:linear-gradient(90deg,#FFF0E5,#FFF9F4);border-left-color:var(--tomate);color:#814019}
+.navbtn[data-panel="forms"].active,.navbtn[data-panel="bases"].active,.navbtn[data-panel="weights"].active{
+  background:linear-gradient(105deg,#E47E3D 0%,#EE9257 48%,#F6B180 100%);
+  color:#fff;border-color:#F1A36F;border-left-color:#00B879;
+  box-shadow:0 10px 22px rgba(228,126,61,.23);
+}
+
+/* Gestión */
+.navbtn[data-panel="campaigns"],.navbtn[data-panel="academic"],.navbtn[data-panel="questions"],.navbtn[data-panel="people"],.navbtn[data-panel="users"]{border-left-color:#5DBDC3}
+.navbtn[data-panel="campaigns"]:hover,.navbtn[data-panel="academic"]:hover,.navbtn[data-panel="questions"]:hover,.navbtn[data-panel="people"]:hover,.navbtn[data-panel="users"]:hover{background:linear-gradient(90deg,#E5F8F8,#F8FFFF);border-left-color:var(--turquesa);color:#00616A}
+.navbtn[data-panel="campaigns"].active,.navbtn[data-panel="academic"].active,.navbtn[data-panel="questions"].active,.navbtn[data-panel="people"].active,.navbtn[data-panel="users"].active{
+  background:linear-gradient(105deg,#028B98 0%,#19B1A2 48%,#5BDCAA 100%);
+  color:#fff;border-color:#55CBB8;border-left-color:#F09A62;
+  box-shadow:0 10px 22px rgba(2,139,152,.22);
+}
+
+/* Integraciones */
+.navbtn[data-panel="integrations"]{border-left-color:#3EA9B2}
+.navbtn[data-panel="integrations"]:hover{background:linear-gradient(90deg,#E3FBFA,#EEFFF9);border-left-color:#0296A0;color:#005E64}
+.navbtn[data-panel="integrations"].active{
+  background:linear-gradient(105deg,#006D78 0%,#0297A0 48%,#00CE7C 100%);
+  color:#fff;border-color:#39BDB5;border-left-color:#F0A06D;
+  box-shadow:0 10px 22px rgba(0,128,136,.22);
+}
+
+/* Sistema */
+.navbtn[data-panel="security"],.navbtn[data-panel="install"]{border-left-color:#9CA7A6}
+.navbtn[data-panel="security"]:hover,.navbtn[data-panel="install"]:hover{background:linear-gradient(90deg,#F0F3F3,#FAFBFB);border-left-color:#687574;color:#475252}
+.navbtn[data-panel="security"].active,.navbtn[data-panel="install"].active{
+  background:linear-gradient(105deg,#5F6A69 0%,#7D8988 100%);
+  color:#fff;border-color:#8C9897;border-left-color:var(--verde);
+  box-shadow:0 10px 22px rgba(70,82,81,.18);
+}
+
+.nav-home{background:linear-gradient(90deg,#E8FFF5,#F8FFFC)!important;color:#006068!important;border:1px solid #CFEBDD!important;border-left:5px solid var(--verde)!important}
+.nav-home.active{background:linear-gradient(105deg,#00B98B,#00CE7C)!important;color:#003F42!important;border-color:#71E6B7!important;border-left-color:var(--tomate)!important;box-shadow:0 9px 20px rgba(0,206,124,.18)!important}
+#logoutBtn{background:linear-gradient(90deg,#FFF0E5,#FFF9F4);border:1px solid #F3C7AA;border-left:5px solid var(--tomate);color:#9C4B1E}
+#logoutBtn:hover{background:linear-gradient(105deg,#D9682F,#E47E3D);color:#fff;border-color:#E47E3D;box-shadow:0 9px 18px rgba(228,126,61,.20)}
+
+/* Botones y formularios */
+.btn-primary{background:linear-gradient(105deg,#00B986,#00CE7C 55%,#4DE0A6);color:#003F42;box-shadow:0 7px 18px rgba(0,206,124,.18)}
+.btn-primary:hover{box-shadow:0 10px 22px rgba(0,206,124,.24)}
+.btn-dark{background:linear-gradient(105deg,#027D87,#006068);color:#fff}
+.btn-orange{background:linear-gradient(105deg,#D96F34,#E47E3D 58%,#F2A06D);color:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#1CCB8B;box-shadow:0 0 0 4px rgba(0,206,124,.12)}
+
+/* Frontend público */
+body{background:
+  radial-gradient(circle at 95% 12%,rgba(0,206,124,.06),transparent 24%),
+  radial-gradient(circle at 4% 84%,rgba(228,126,61,.055),transparent 22%),
+  #F5FAF8;
+}
+.hero{
+  border-top:5px solid transparent;
+  border-image:linear-gradient(90deg,var(--tomate),var(--verde),var(--turquesa)) 1;
+  background:linear-gradient(120deg,#FFFFFF 0%,#F7FFFB 48%,#DFFBEE 100%);
+  box-shadow:0 16px 38px rgba(0,96,104,.09);
+}
+.hero:after{background:linear-gradient(135deg,rgba(0,206,124,.13),rgba(2,139,152,.08))}
+.category-head{
+  position:relative;overflow:hidden;
+  background:linear-gradient(110deg,#FFF4EB 0%,#FFFFFF 19%,#E8FFF4 65%,#DDF8F7 100%);
+  border:1px solid #CFE8E1;border-left:6px solid var(--tomate);
+  box-shadow:0 8px 22px rgba(0,96,104,.06);
+}
+.category-head:after{content:"";position:absolute;right:-44px;top:-48px;width:132px;height:132px;border-radius:50%;background:rgba(0,206,124,.10)}
+.category-brand,.category-meta{position:relative;z-index:1}
+.question{border:1px solid #DCEBE7;border-left:4px solid #B9E6D5;box-shadow:0 5px 15px rgba(0,96,104,.035);transition:.18s ease}
+.question:hover,.question:focus-within{border-left-color:var(--verde);box-shadow:0 10px 23px rgba(0,96,104,.075);transform:translateY(-1px)}
+.option{background:#fff;border-color:#DDEAE7}
+.option:hover{border-color:#83D9B6;background:#F3FFF9}
+.option:has(input:checked){background:linear-gradient(100deg,#E7FFF3,#F8FFFC);border-color:#5ADBA7;box-shadow:0 5px 14px rgba(0,206,124,.10)}
+.scale label{background:#fff;transition:.16s ease}
+.scale label:hover{border-color:#62D7AD;background:#F1FFF8}
+.scale label:has(input:checked){background:linear-gradient(135deg,#E47E3D 0%,#00CE7C 100%);color:#fff;border-color:#20B98A;box-shadow:0 7px 16px rgba(0,146,116,.18)}
+.progress>span{background:linear-gradient(90deg,var(--tomate) 0%,#F0A36F 20%,var(--verde) 56%,var(--turquesa) 100%)}
+.notice{box-shadow:0 4px 12px rgba(228,126,61,.05)}
+.oknotice{background:linear-gradient(100deg,#E9FFF5,#F8FFFC)}
+
+/* Tablas y chips: lectura más limpia */
+.table thead th{background:linear-gradient(180deg,#E9F7F3,#F4FBF9);color:#005E64}
+.perm-pill{background:#E6FBF3;border:1px solid #D0EFE3;color:#006068}
+.tag.orange{background:#FFF0E5;border:1px solid #F6D2B8;color:#97481B}
+
+@media(max-width:900px){
+  .topbar{background:linear-gradient(110deg,#fff 0%,#EFFFF7 48%,#00CE7C 100%)}
+  .sidebar{background:linear-gradient(90deg,#F8FFFB,#EEFBF5,#FFF6EF)}
+  .navbtn{box-shadow:none}
+}
+
 </style>
 <script>try{const __p=new URLSearchParams(location.search);if(__p.get('admin')!=='1'&&!__p.get('form'))document.documentElement.classList.add('landing-route')}catch(e){}</script>
 </head>
@@ -206,7 +446,7 @@ html.landing-route body{background:#003f35;overflow-x:hidden}html.landing-route 
 </section>
 
   <section id="adminShell" class="admin-shell hidden">
-    <aside class="sidebar"><div class="sidebar-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera" onerror="this.outerHTML='<span class=&quot;brand-fallback&quot;>C</span>'"></div><div><strong>Motor de Encuestas</strong><small>Panel institucional</small></div></div><button class="navbtn nav-home active" id="homeBtn">⌂ Inicio</button><div class="side-title analysis">Análisis</div><button class="navbtn" data-panel="dashboard">▦ Dashboard</button><button class="navbtn" data-panel="monitor">◉ Monitoreo en vivo</button><button class="navbtn" data-panel="records">▦ Registros individuales</button><button class="navbtn" data-panel="reports">▥ Reportes</button><div class="side-title engine">Motor de encuestas</div><button class="navbtn" data-panel="forms">▣ Formularios</button><button class="navbtn" data-panel="bases">▤ Bases asociadas</button><button class="navbtn" data-panel="weights">★ Ponderaciones</button><div class="side-title management">Gestión</div><button class="navbtn" data-panel="campaigns">◷ Campañas</button><button class="navbtn" data-panel="academic">▤ Base académica</button><button class="navbtn" data-panel="questions">? Preguntas</button><button class="navbtn" data-panel="people">👥 Tutores y asesores</button><button class="navbtn" data-panel="users">♙ Usuarios y roles</button><div class="side-title analysis">Integraciones</div><button class="navbtn" data-panel="integrations">▦ Power BI</button><div class="side-title system">Sistema</div><button class="navbtn" data-panel="security">🔐 Seguridad</button><button class="navbtn" data-panel="install">⌘ Instalación</button><button class="navbtn" id="logoutBtn">↪ Cerrar sesión</button></aside>
+    <aside class="sidebar"><div class="sidebar-brand"><div class="brandmark"><img src="https://i.imgur.com/dk8rXBO.jpeg" alt="Ícono Instituto Cordillera" onerror="this.outerHTML='<span class=&quot;brand-fallback&quot;>C</span>'"></div><div><strong>Motor de Encuestas</strong><small>Panel institucional</small></div></div><button class="navbtn nav-home active" id="homeBtn">⌂ Inicio</button><div class="side-title analysis">Análisis</div><button class="navbtn" data-panel="dashboard">▦ Dashboard</button><button class="navbtn" data-panel="monitor">◉ Monitoreo en vivo</button><button class="navbtn" data-panel="records">▦ Registros individuales</button><button class="navbtn" data-panel="reports">▥ Reportes</button><div class="side-title engine">Motor de encuestas</div><button class="navbtn" data-panel="forms">▣ Formularios</button><button class="navbtn" data-panel="bases">▤ Bases asociadas</button><button class="navbtn" data-panel="weights">★ Ponderaciones</button><div class="side-title management">Gestión</div><button class="navbtn" data-panel="campaigns">◷ Campañas</button><button class="navbtn" data-panel="academic">▤ Base académica</button><button class="navbtn" data-panel="questions">? Preguntas</button><button class="navbtn" data-panel="people">👥 Tutores y asesores</button><button class="navbtn" data-panel="users">♙ Usuarios y roles</button><div class="side-title integrations">Integraciones</div><button class="navbtn" data-panel="integrations">▦ Power BI</button><div class="side-title system">Sistema</div><button class="navbtn" data-panel="security">🔐 Seguridad</button><button class="navbtn" data-panel="install">⌘ Instalación</button><button class="navbtn" id="logoutBtn">↪ Cerrar sesión</button></aside>
     <div class="admin-main">
       <div class="admin-title"><div><div class="eyebrow">Panel administrativo</div><h2 id="panelTitle">Inicio</h2></div><div><span class="tag" id="adminUserTag">Administrador</span></div></div>
 
